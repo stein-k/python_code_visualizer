@@ -147,8 +147,12 @@ class CodeParser(object):
             'col_offset': node.col_offset,
             'vararg': node.args.vararg,
             'kwarg': node.args.kwarg,
-            'args': [{'name': arg.id, 'line_number': arg.lineno, 'col_offset': arg.col_offset} for arg in node.args.args],
-            'defaults': [{'value': default.id, 'line_number': default.lineno, 'col_offset': default.col_offset} for default in node.args.defaults]
+            'args': [
+                {'name': arg.id, 'line_number': arg.lineno, 'col_offset': arg.col_offset}
+                for arg in node.args.args],
+            'defaults': [
+                {'value': default.id, 'line_number': default.lineno, 'col_offset': default.col_offset}
+                for default in node.args.defaults]
         }
 
     def _handle_class(self, node):
@@ -181,7 +185,7 @@ class CodeParser(object):
 
 if __name__ == '__main__':
     code_parser = CodeParser()
-    #filename = '/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/code_parser.py'
+    # filename = '/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/code_parser.py'
     filename = '/home/stein/Code/skunk/python_code_visualizer/repository/requests/requests/adapters.py'
     with open(filename, 'r') as python_code:
         res = code_parser.parse_python_code(python_code.read())
