@@ -6,13 +6,13 @@ from .import_parser import get_import_statements
 
 def get_counters_for_file(python_code_as_string):
     counters = {
-                "lines": 0,
-                "emptylines": 0,
-                "commentline": 0,
-                "classes": 0,
-                "functions": 0,
-                "imports": 0
-                }
+        "lines": 0,
+        "emptylines": 0,
+        "commentline": 0,
+        "classes": 0,
+        "functions": 0,
+        "imports": 0
+    }
 
     imports = get_import_statements(python_code_as_string)
     counters["imports"] = sum([len(imps) for imps in imports.values()], 0)
