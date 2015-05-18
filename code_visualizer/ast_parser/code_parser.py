@@ -46,10 +46,10 @@ class CodeParser(object):
         syntax_tree = ast.parse(python_code_as_string)
 
         current_stack = []
-        StackItem = namedtuple('StackItem', ['lookup_path', 'node'])
+        StackItem = namedtuple('StackItem', ['parent', 'node'])
         current_stack.extend(
             [
-                StackItem(lookup_path='', node=node)
+                StackItem(parent='', node=node)
                 for node
                 in ast.iter_child_nodes(syntax_tree)
             ]
@@ -58,7 +58,7 @@ class CodeParser(object):
         while len(current_stack) > 0:
             lookup_path, node = current_stack.pop(0)
 
-            if isinstance(node, ast.Import) or isinstance(node, ast.ImportFrom):
+            if isinstance(node, (ast.Import, ast.ImportFrom)):
                 for import_statement in self._handle_import(node):
                     update_dict = self._format_update_dict(node, import_statement)
                     update_dict.update(type='import')
@@ -74,7 +74,7 @@ class CodeParser(object):
                 child_lookup_path = '.'.join([lookup_path, update_dict['structure']['name']])
                 current_stack.extend(
                     [
-                        StackItem(lookup_path=child_lookup_path, node=child)
+                        StackItem(parent=child_lookup_path, node=child)
                         for child
                         in ast.iter_child_nodes(node)
                     ]
@@ -116,13 +116,14 @@ class CodeParser(object):
             'name': '<name>'
         }
         """
-        assert(isinstance(node, ast.Import) or isinstance(node, ast.ImportFrom))
+        assert(isinstance(node, (ast.Import, ast.ImportFrom)))
         return [
             {
                 'where_to_import_from': node.module if isinstance(node, ast.ImportFrom) else None,
                 'what_to_import': name.name,
                 'alias': name.asname,
-                'name': name.asname if name.asname else name.name
+                'name': name.asname if name.asname else name.name,
+                'level': node.level if isinstance(node, ast.ImportFrom) else 0
             } for name in node.names]
 
     def _handle_function(self, node):
@@ -186,7 +187,7 @@ class CodeParser(object):
 if __name__ == '__main__':
     code_parser = CodeParser()
     # filename = '/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/code_parser.py'
-    filename = '/home/stein/Code/skunk/python_code_visualizer/repository/requests/requests/adapters.py'
+    filename = '/home/stein/Code/skunk/repository/requests/requests/adapters.py'
     with open(filename, 'r') as python_code:
         res = code_parser.parse_python_code(python_code.read())
 
