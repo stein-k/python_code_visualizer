@@ -30,7 +30,10 @@ def visit(node_tree, ordering=DEPTH_FIRST):
         yield node_parent, node
 
 def get_node_name(node):
-    return node.name if hasattr(node, 'name') and node.name else type(node).__name__
+    name = node.name if hasattr(node, 'name') and node.name else type(node).__name__
+    if isinstance(name, ast.Name):
+        name = name.id
+    return name
 
 def get_children_parent(node, node_parent):
     return '' if isinstance(node, ast.Module) else '.'.join([node_parent, get_node_name(node)])

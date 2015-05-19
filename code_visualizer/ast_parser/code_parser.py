@@ -9,7 +9,9 @@ from .node_visitor import visit
 
 
 StackItem = namedtuple('StackItem', ['parent', 'node'])
-unsupported_structure_items = ['If', 'For', 'With', 'While']
+unsupported_structure_items = [
+    'If', 'For', 'With', 'While', 'TryExcept', 'TryFinally', 'ExceptHandler', '_', 'e'
+]
 
 
 class CodeParser(object):
@@ -141,7 +143,7 @@ class CodeParser(object):
                 {'name': arg.id, 'line_number': arg.lineno, 'col_offset': arg.col_offset}
                 for arg in node.args.args],
             'defaults': [
-                {'value': default.id, 'line_number': default.lineno, 'col_offset': default.col_offset}
+                {'value': repr(default), 'line_number': default.lineno, 'col_offset': default.col_offset}
                 for default in node.args.defaults]
         }
 
@@ -153,9 +155,15 @@ class CodeParser(object):
         }
         """
         assert(isinstance(node, ast.ClassDef))
+        bases = []
+        for base in node.bases:
+            if isinstance(base, ast.Name):
+                bases.append(base.id)
+            elif isinstance(base, ast.Call):
+                bases.append(base.func.id)
         return {
             'name': node.name,
-            'bases': [base.id for base in node.bases]
+            'bases': bases
         }
 
     def _handle_assignment(self, node):
@@ -170,10 +178,18 @@ class CodeParser(object):
             if isinstance(target, ast.Attribute):
                 result.append({'name': target.attr})
             elif isinstance(target, ast.Tuple):
-                result.extend([{'name': name.id for name in target.elts}])
+                result.extend([{'name': self._get_node_name(sub_target) for sub_target in target.elts}])
+            elif isinstance(target, ast.Subscript):
+                    result.append({'name': self._get_node_name(target.value)})
             else:
                 result.append({'name': target.id})
         return result
+
+    def _get_node_name(self, node):
+        if isinstance(node, ast.Attribute):
+            return node.attr
+        if isinstance(node, ast.Name):
+            return node.id
 
 
 if __name__ == '__main__':
