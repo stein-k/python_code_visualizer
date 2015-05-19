@@ -3,12 +3,13 @@
 
 import ast
 from collections import namedtuple
+from pprint import pprint
 
 from .node_visitor import visit
 
 
 StackItem = namedtuple('StackItem', ['parent', 'node'])
-unsupported_structure_items = ['If']
+unsupported_structure_items = ['If', 'For', 'With', 'While']
 
 
 class CodeParser(object):
@@ -66,10 +67,10 @@ class CodeParser(object):
                 update_dict = self._format_update_dict(node, self._handle_class(node))
                 self._insert_into_tree(result, lookup_path, update_dict)
 
-            """if isinstance(node, ast.Assign):
+            if isinstance(node, ast.Assign):
                 for assignment in self._handle_assignment(node):
                     update_dict = self._format_update_dict(node, assignment)
-                    self._insert_into_tree(result, lookup_path, update_dict)"""
+                    self._insert_into_tree(result, lookup_path, update_dict)
 
         return result
 
@@ -164,13 +165,16 @@ class CodeParser(object):
 
         """
         assert(isinstance(node, ast.Assign))
-        return [
-            {
-                'name': target.id
-            }
-            for target
-            in node.targets
-        ]
+        result = []
+        for target in node.targets:
+            if isinstance(target, ast.Attribute):
+                result.append({'name': target.attr})
+            elif isinstance(target, ast.Tuple):
+                result.extend([{'name': name.id for name in target.elts}])
+            else:
+                result.append({'name': target.id})
+        return result
+
 
 if __name__ == '__main__':
     code_parser = CodeParser()
@@ -179,5 +183,5 @@ if __name__ == '__main__':
     with open(filename, 'r') as python_code:
         res = code_parser.parse_python_code(python_code.read())
 
-    from pprint import pprint
+
     pprint(res)
