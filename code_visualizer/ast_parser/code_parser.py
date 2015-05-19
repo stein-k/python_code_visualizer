@@ -4,6 +4,12 @@
 import ast
 from collections import namedtuple
 
+from .node_visitor import visit
+
+
+StackItem = namedtuple('StackItem', ['parent', 'node'])
+unsupported_structure_items = ['If']
+
 
 class CodeParser(object):
     """
@@ -44,19 +50,7 @@ class CodeParser(object):
             }
         }
         syntax_tree = ast.parse(python_code_as_string)
-
-        current_stack = []
-        StackItem = namedtuple('StackItem', ['parent', 'node'])
-        current_stack.extend(
-            [
-                StackItem(parent='', node=node)
-                for node
-                in ast.iter_child_nodes(syntax_tree)
-            ]
-        )
-
-        while len(current_stack) > 0:
-            lookup_path, node = current_stack.pop(0)
+        for lookup_path, node in visit(syntax_tree):
 
             if isinstance(node, (ast.Import, ast.ImportFrom)):
                 for import_statement in self._handle_import(node):
@@ -71,19 +65,11 @@ class CodeParser(object):
             if isinstance(node, ast.ClassDef):
                 update_dict = self._format_update_dict(node, self._handle_class(node))
                 self._insert_into_tree(result, lookup_path, update_dict)
-                child_lookup_path = '.'.join([lookup_path, update_dict['structure']['name']])
-                current_stack.extend(
-                    [
-                        StackItem(parent=child_lookup_path, node=child)
-                        for child
-                        in ast.iter_child_nodes(node)
-                    ]
-                )
 
-            if isinstance(node, ast.Assign):
+            """if isinstance(node, ast.Assign):
                 for assignment in self._handle_assignment(node):
                     update_dict = self._format_update_dict(node, assignment)
-                    self._insert_into_tree(result, lookup_path, update_dict)
+                    self._insert_into_tree(result, lookup_path, update_dict)"""
 
         return result
 
@@ -98,14 +84,16 @@ class CodeParser(object):
 
     def _insert_into_tree(self, result_dict, leaf_lookup_path, update_dict):
         assert('name' in update_dict['structure'])
-
         node_update = {update_dict['structure']['name']: update_dict}
 
         current_branch = result_dict
         for path_item in leaf_lookup_path.split('.'):
-            current_branch = current_branch.get(path_item).get('children')
-
-        current_branch.update(node_update)
+            if path_item in unsupported_structure_items:
+                continue
+            current_branch_path = current_branch.get(path_item)
+            children = current_branch_path.get('children')
+            current_branch = children
+            current_branch.update(node_update)
 
     def _handle_import(self, node):
         """
