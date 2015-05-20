@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import os
 import sys
 from pprint import pprint
 
-from simple_counter import code_counter
-from ast_parser.code_parser import CodeParser
+from code_visualizer.ast_parser.code_parser import CodeParser
 
 
 def get_directory_structure(path):
@@ -32,7 +30,6 @@ def main(base_path):
                     path_to_python_file = os.path.join(directory, file_name)
                     with open(path_to_python_file) as python_file:
                         python_code_as_string = python_file.read()
-                        #counters[path_to_python_file] = code_counter.get_counters_for_file(python_code_as_string)
                         parsed_map = ast_code_parser.parse_python_code(python_code_as_string)
                         nodes = parsed_map.get('', ).get('children')
 
@@ -47,4 +44,4 @@ if __name__ == '__main__':
     if len(sys.argv) == 2:
         main(sys.argv[1])
     else:
-        print("%s <directory to analyze>")
+        print("%s <directory to analyze>" % sys.argv[0])
