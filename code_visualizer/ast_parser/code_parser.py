@@ -2,15 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import ast
-from collections import namedtuple
 from pprint import pprint
 
 from .node_visitor import visit
 
 
-StackItem = namedtuple('StackItem', ['parent', 'node'])
 unsupported_structure_items = [
-    'If', 'For', 'With', 'While', 'TryExcept', 'TryFinally', 'ExceptHandler', '_', 'e'
+    'If', 'For', 'With', 'While', 'TryExcept', 'TryFinally', 'ExceptHandler'
 ]
 
 
@@ -92,7 +90,7 @@ class CodeParser(object):
         current_branch = result_dict
         for path_item in leaf_lookup_path.split('.'):
             if path_item in unsupported_structure_items:
-                continue
+                break
             current_branch_path = current_branch.get(path_item)
             children = current_branch_path.get('children')
             current_branch = children
@@ -157,10 +155,7 @@ class CodeParser(object):
         assert(isinstance(node, ast.ClassDef))
         bases = []
         for base in node.bases:
-            if isinstance(base, ast.Name):
-                bases.append(base.id)
-            elif isinstance(base, ast.Call):
-                bases.append(base.func.id)
+            bases.append(self._get_node_name(base))
         return {
             'name': node.name,
             'bases': bases
@@ -190,6 +185,8 @@ class CodeParser(object):
             return node.attr
         if isinstance(node, ast.Name):
             return node.id
+        if isinstance(node, ast.Call):
+            return node.func.id
 
 
 if __name__ == '__main__':
@@ -198,6 +195,5 @@ if __name__ == '__main__':
     filename = '/home/stein/Code/skunk/repository/requests/requests/adapters.py'
     with open(filename, 'r') as python_code:
         res = code_parser.parse_python_code(python_code.read())
-
 
     pprint(res)
