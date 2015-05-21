@@ -94,7 +94,7 @@ class CodeParser(object):
             current_branch_path = current_branch.get(path_item)
             children = current_branch_path.get('children')
             current_branch = children
-            current_branch.update(node_update)
+        current_branch.update(node_update)
 
     def _handle_import(self, node):
         """
@@ -191,8 +191,8 @@ class CodeParser(object):
 
 if __name__ == '__main__':
     code_parser = CodeParser()
-    # filename = '/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/code_parser.py'
-    filename = '/home/stein/Code/skunk/repository/requests/requests/adapters.py'
+    filename = '/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/code_parser.py'
+    #filename = '/home/stein/Code/skunk/repository/requests/requests/adapters.py'
     with open(filename, 'r') as python_code:
         res = code_parser.parse_python_code(python_code.read())
 
