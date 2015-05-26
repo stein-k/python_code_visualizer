@@ -3,7 +3,7 @@
 
 import ast
 
-from . import HandlerInterface
+from .interface import HandlerInterface
 from ..node_utils import get_node_name
 
 
@@ -18,10 +18,10 @@ class ClassHandler(HandlerInterface):
         bases = []
         for base in node.bases:
             bases.append(get_node_name(base))
-        return {
+        return [{
             'name': node.name,
             'bases': bases
-        }
+        }]
 
     def supported_types(self):
         return [ast.ClassDef]

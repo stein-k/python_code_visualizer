@@ -3,7 +3,7 @@
 
 import ast
 
-from . import HandlerInterface
+from .interface import HandlerInterface
 from ..node_utils import get_target_value
 
 
@@ -14,7 +14,8 @@ class AssignmentHandler(HandlerInterface):
         }
     """
     def handle(self, node):
-        return get_target_value(node.target)
+        target_value = get_target_value(node.target)
+        return target_value if isinstance(target_value, list) else [target_value]
 
     def supported_types(self):
         return [ast.Assign]

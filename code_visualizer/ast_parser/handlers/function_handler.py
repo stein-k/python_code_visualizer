@@ -3,7 +3,7 @@
 
 import ast
 
-from . import HandlerInterface
+from .interface import HandlerInterface
 
 
 class FunctionHandler(HandlerInterface):
@@ -19,15 +19,13 @@ class FunctionHandler(HandlerInterface):
         }
     """
     def handle(self, node):
-        return {
+        return [{
             'name': node.name,
-            'line_number': node.lineno,
-            'col_offset': node.col_offset,
             'vararg': node.args.vararg,
             'kwarg': node.args.kwarg,
             'args': [{'name': arg.id} for arg in node.args.args],
             'defaults': [{'value': repr(default)} for default in node.args.defaults]
-        }
+        }]
 
     def supported_types(self):
         return [ast.FunctionDef]

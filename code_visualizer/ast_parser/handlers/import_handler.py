@@ -3,7 +3,7 @@
 
 import ast
 
-from . import HandlerInterface
+from .interface import HandlerInterface
 
 
 class ImportHandler(HandlerInterface):

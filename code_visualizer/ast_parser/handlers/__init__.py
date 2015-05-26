@@ -1,16 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+from .assignment_handler import AssignmentHandler
+from .class_handler import ClassHandler
+from .function_handler import FunctionHandler
+from .import_handler import ImportHandler
 
-from abc import ABCMeta, abstractmethod, abstractproperty
-
-
-class HandlerInterface(object):
-    __metaclass__ = ABCMeta
-
-    @abstractproperty
-    def supported_types(self):
-        return []
-
-    @abstractmethod
-    def handle(self, node):
-        pass
+__all__ = [AssignmentHandler, ClassHandler, FunctionHandler, ImportHandler]
