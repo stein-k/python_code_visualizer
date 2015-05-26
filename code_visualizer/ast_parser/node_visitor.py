@@ -4,47 +4,36 @@
 import ast
 from collections import namedtuple
 
-from .node_filter import PassThroughCriteria
+from .node_utils import get_children_parent
 
 
-DEPTH_FIRST = 0
-BREADTH_FIRST = 1
 StackItem = namedtuple('StackItem', ['parent', 'node'])
-GENERATION_SEPARATOR = '.'
 
 
-def visit(node_tree, ordering=DEPTH_FIRST, node_filter=None):
-    current_stack = [StackItem(parent='', node=node_tree)]
+class NodeVisitor(object):
+    def __init__(self):
+        self.visitors = []
 
-    if not node_filter:
-        node_filter = PassThroughCriteria()
+    def register_visitor(self, visit_criteria):
+        self.visitors.append(visit_criteria)
 
-    while len(current_stack) > 0:
-        node_parents_types, node = current_stack.pop(0)
+    def visit(self, node_tree, visitors=None, parent=None):
+        if visitors is None:
+            visitors = self.visitors
 
-        children_parent = get_children_parent(node, node_parents_types)
+        current_stack = [StackItem(parent=parent, node=node_tree)]
 
-        if node_filter.visit_children(node_parents_types=node_parents_types, node=node):
-            children = [
-                StackItem(parent=children_parent, node=child)
-                for child
-                in ast.iter_child_nodes(node)
-            ]
-            if ordering == DEPTH_FIRST:
-                current_stack = children + current_stack
-            else:
-                current_stack = current_stack + children
+        while current_stack:
+            node_parents, node = current_stack.pop(0)
 
-        if node_filter.return_node(node_parents_types=node_parents_types, node=node):
-            yield node_parents_types, node
+            visitors_interested_in_children = []
+            for visitor in visitors:
+                if visitor.is_interested_in_node(node_parents, node):
+                    visitor.visit_node(node_parents, node)
+                if visitor.is_interested_in_children(node_parents, node):
+                    visitors_interested_in_children.append(visitor)
 
-def get_node_name(node):
-    name = node.name if hasattr(node, 'name') and node.name else type(node).__name__
-    if isinstance(name, ast.Name):
-        name = name.id
-    return name
-
-def get_children_parent(node, node_parent):
-    return '' \
-        if isinstance(node, ast.Module) \
-        else GENERATION_SEPARATOR.join([node_parent, get_node_name(node)])
+            if visitors_interested_in_children:
+                child_nodes_parent = get_children_parent(node, node_parents)
+                for child in ast.iter_child_nodes(node):
+                    self.visit(child, visitors_interested_in_children, child_nodes_parent)

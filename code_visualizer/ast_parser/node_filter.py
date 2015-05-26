@@ -10,16 +10,23 @@ class Criteria(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def return_node(self, node_parents_types, node):
+    def is_interested_in_node(self, node_parents, node):
         return True
 
     @abstractmethod
-    def visit_children(self, node_parents_types, node):
+    def is_interested_in_children(self, node_parents, node):
         return True
+
+    @abstractmethod
+    def visit_node(self, node_parents, node):
+        pass
 
 class PassThroughCriteria(Criteria):
-    def return_node(self, node_parents_types, node):
+    def is_interested_in_node(self, node_parents, node):
         return True
 
-    def visit_children(self, node_parents_types, node):
+    def is_interested_in_children(self, node_parents, node):
         return True
+
+    def visit_node(self, node_parents, node):
+        pass
