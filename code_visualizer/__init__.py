@@ -3,7 +3,7 @@
 
 import sys
 
-from .path_walker import get_directory_structure
+from utils.path_walker import get_directory_structure
 
 
 def main(base_path):

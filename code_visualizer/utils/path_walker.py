@@ -14,11 +14,14 @@ def get_directory_structure(path):
     Walks a directory-structure and returns path, file-name pairs
     if directory is not to big (nor unwanted) and file has '.py' extension
     :param path: The path to start walking from
-    :return: path, file-name pairs
+    :return: (path, file-name) pairs
     """
     paths_to_check = [path]
     while paths_to_check:
         check_path = paths_to_check.pop(0)
+        if os.path.isfile(check_path):
+            return os.path.split(check_path)
+
         stats = os.stat(check_path)
         if stats.st_size > DIRECTORY_MAX_SIZE:
             # print("Directory contains too many files: {0}".format(check_path))
