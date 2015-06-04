@@ -23,8 +23,7 @@ def get_counters_for_file(python_code_as_string):
         if current_block_comment_string:
             if stripped_line.endswith(current_block_comment_string):
                 current_block_comment_string = None
-
-        if not current_block_comment_string:
+        else:
             if stripped_line == "":
                 counters["emptylines"] += 1
 
