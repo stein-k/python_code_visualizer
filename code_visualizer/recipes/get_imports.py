@@ -21,10 +21,10 @@ class ImportFilter(Criteria):
 
 
 import_handler = ImportHandler()
-imports = []
+module_imports = []
 
 def handle_node(node):
-    global imports
+    global module_imports
     for import_statement in import_handler.handle(node):
         what = import_statement.get('what_to_import')
         where = import_statement.get('where_to_import_from')
@@ -34,7 +34,7 @@ def handle_node(node):
             imports.append('{0}'.format(what))
 
 def print_imports(path_to_python_file):
-    global imports
+    global module_imports
     with open(path_to_python_file) as python_file:
         python_file_as_string = python_file.read()
 
