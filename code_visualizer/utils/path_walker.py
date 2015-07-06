@@ -24,7 +24,7 @@ def get_directory_structure(path):
 
         stats = os.stat(check_path)
         if stats.st_size > DIRECTORY_MAX_SIZE:
-            # print("Directory contains too many files: {0}".format(check_path))
+            # print("Path contains too many files: {0}".format(check_path))
             continue
         try:
             path_content = os.listdir(check_path)

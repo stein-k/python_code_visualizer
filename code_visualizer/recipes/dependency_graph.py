@@ -29,11 +29,13 @@ file_paths = set()
 m2m_relations = set()
 m2p_relations = set()
 
+
 def handle_node(node):
     global module_imports
     for import_statement in import_handler.handle(node):
         what = import_statement.get('what_to_import')
         module_imports.append(what)
+
 
 def dependency_graph(path):
     global module_imports
@@ -73,7 +75,8 @@ if __name__ == '__main__':
             ('m2p_relations.csv', m2p_relations)
         ]
         for output_file_name, data in output:
-            with open(os.path.join(base_path, output_file_name), 'w') as output:
+            output_full_path = os.path.join(base_path, output_file_name)
+            with open(output_full_path, 'w') as output:
                 for line in data:
                     if isinstance(line, str):
                         output.write(line+'\n')

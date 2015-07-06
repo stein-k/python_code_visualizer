@@ -6,6 +6,7 @@ import ast
 
 GENERATION_SEPARATOR = '.'
 
+
 def get_node_name(node):
     """
     Returns the name identifying the node
@@ -34,6 +35,7 @@ def get_node_name(node):
             format_dict['col'] = node.col_offset
         return "{type}[{line}:{col}]".format(**format_dict)
 
+
 def get_target_value(target):
     """
     Returns the value of the node
@@ -44,15 +46,20 @@ def get_target_value(target):
     if isinstance(target, ast.Attribute):
         return target.attr
     elif isinstance(target, ast.Tuple):
-        return [{'name': get_node_name(sub_target) for sub_target in target.elts}]
+        return [{
+            'name': get_node_name(sub_target)
+            for sub_target in target.elts
+            }]
     elif isinstance(target, ast.Subscript):
         return get_node_name(target.value)
     else:
         return target.id
 
+
 def get_children_parent(node, node_parent):
     """
-    Returns a string with current node appended to its parents separated by GENERATION_SEPARATOR
+    Returns a string with current node appended
+    to its parents separated by GENERATION_SEPARATOR
     :param node: The node to get the path to
     :param node_parent: The nodes parents separated by GENERATION_SEPARATOR
     :return: String with path through generations for node

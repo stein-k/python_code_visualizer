@@ -3,6 +3,7 @@
 
 from abc import ABCMeta, abstractmethod
 
+
 class Criteria(object):
     """
     Base-class for filtering criteria.
@@ -20,6 +21,7 @@ class Criteria(object):
     @abstractmethod
     def visit_node(self, node_parents, node):
         pass
+
 
 class PassThroughCriteria(Criteria):
     def is_interested_in_node(self, node_parents, node):

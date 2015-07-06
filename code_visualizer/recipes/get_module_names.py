@@ -23,13 +23,17 @@ class GenericFilter(Criteria):
 
 names = []
 
+
 def handle_node(node):
     global names
     for handler in all_handlers:
             handler_instance = handler()
             if type(node) in handler_instance.supported_types():
                 node_list = handler_instance.handle(node)
-                names.extend([node_element.get('name') for node_element in node_list])
+                names.extend(
+                    [node_element.get('name') for node_element in node_list]
+                )
+
 
 def print_module_names(path_to_python_file):
     global names

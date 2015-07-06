@@ -36,4 +36,8 @@ class NodeVisitor(object):
             if visitors_interested_in_children:
                 child_nodes_parent = get_children_parent(node, node_parents)
                 for child in ast.iter_child_nodes(node):
-                    self.visit(child, visitors_interested_in_children, child_nodes_parent)
+                    self.visit(
+                        child,
+                        visitors_interested_in_children,
+                        child_nodes_parent
+                    )
