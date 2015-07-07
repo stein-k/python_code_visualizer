@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"vis",
+				"visitor"
+			],
+			[
+				"fo",
+				"format	function"
+			],
+			[
 				"node",
 				"node_utils	module"
 			],
@@ -31,6 +39,30 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "code_visualizer/recipes/get_imports.py",
+			"settings":
+			{
+				"buffer_size": 1797,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "code_visualizer/ast_parser/node_visitor.py",
+			"settings":
+			{
+				"buffer_size": 1701,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "code_visualizer/recipes/dependency_graph.py",
+			"settings":
+			{
+				"buffer_size": 3077,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -82,13 +114,34 @@
 	"expanded_folders":
 	[
 		"/home/stein/Code/skunk/python_code_visualizer",
-		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer"
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/handlers",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/recipes",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/simple_counter",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/utils"
 	],
 	"file_history":
 	[
-		"/home/stein/Code/skunk/python_code_visualizer/.project",
-		"/home/stein/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/utils/path_walker.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/handlers/interface.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/handlers/import_handler.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/node_filter.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/handlers/__init__.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/recipes/dependency_graph.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/recipes/get_module_names.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/recipes/get_imports.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/node_utils.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/recipes/list_names.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/__init__.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/node_visitor.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/simple_counter/code_counter.py",
 		"/home/stein/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/stein/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/handlers/class_handler.py",
+		"/home/stein/Code/skunk/python_code_visualizer/code_visualizer/ast_parser/handlers/assignment_handler.py",
+		"/home/stein/Code/skunk/python_code_visualizer/python_code_visualizer.sublime-project",
+		"/home/stein/Code/skunk/python_code_visualizer/.project",
 		"/home/stein/Code/python_code_visualizer/code_visualizer/recipes/get_module_names.py",
 		"/home/stein/Code/python_code_visualizer/code_visualizer/ast_parser/handlers/__init__.py",
 		"/home/stein/Code/python_code_visualizer/code_visualizer/ast_parser/node_utils.py",
@@ -113,11 +166,11 @@
 	],
 	"find":
 	{
-		"height": 25.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
 		]
@@ -127,6 +180,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			":\n",
+			"sub_path",
 			"']\n"
 		],
 		"highlight": true,
@@ -135,6 +190,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"path_content"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -144,6 +200,102 @@
 	},
 	"groups":
 	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "code_visualizer/recipes/get_imports.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1797,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								367,
+								367
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "code_visualizer/ast_parser/node_visitor.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1701,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								497,
+								497
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "code_visualizer/recipes/dependency_graph.py",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 3077,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		},
 		{
 			"sheets":
 			[
@@ -167,6 +319,12 @@
 				0,
 				1,
 				1
+			],
+			[
+				0,
+				1,
+				1,
+				2
 			]
 		],
 		"cols":
@@ -177,6 +335,7 @@
 		"rows":
 		[
 			0.0,
+			0.624266666667,
 			1.0
 		]
 	},
@@ -189,7 +348,7 @@
 	"project": "python_code_visualizer.sublime-project",
 	"replace":
 	{
-		"height": 46.0
+		"height": 64.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -198,6 +357,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"path",
+				"code_visualizer/utils/path_walker.py"
+			]
 		],
 		"width": 0.0
 	},
@@ -212,12 +375,12 @@
 	},
 	"select_symbol":
 	{
-		"height": 0.0,
+		"height": 392.0,
 		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 392.0
 	},
 	"selected_group": 0,
 	"settings":

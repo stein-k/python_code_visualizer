@@ -59,3 +59,5 @@ target/
 /.settings/
 /.project
 /.pydevproject
+
+python_code_visualizer.sublime-workspace
