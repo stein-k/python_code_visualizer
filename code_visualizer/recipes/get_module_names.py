@@ -14,8 +14,12 @@ from ast_parser.node_filter import Criteria
 from ast_parser.handlers import __all__ as all_handlers
 
 
-class GenericFilter(Criteria):
+class ModuleNameFilter(Criteria):
     """Filter which visits all top-level nodes"""
+
+    def __init__(self):
+        self.names = []
+
     def wants_to_visit_descendants(self, node_parents, node):
         return node_parents is None
 
@@ -23,21 +27,14 @@ class GenericFilter(Criteria):
         return True
 
     def handle_node(self, node_parents, node):
-        handle_node(node)
-
-
-_names = []
-
-
-def handle_node(node):
-    """Adds the name of the node to the list of seen names"""
-    for handler in all_handlers:
-        handler_instance = handler()
-        if type(node) in handler_instance.supported_types():
-            node_list = handler_instance.handle(node)
-            _names.extend(
-                [node_element.get('name') for node_element in node_list]
-            )
+        """Adds the name of the node to the list of seen names"""
+        for handler in all_handlers:
+            handler_instance = handler()
+            if type(node) in handler_instance.supported_types():
+                node_list = handler_instance.handle(node)
+                self.names.extend(
+                    [node_element.get('name') for node_element in node_list]
+                )
 
 
 def print_module_names(path_to_python_file):
@@ -50,13 +47,14 @@ def print_module_names(path_to_python_file):
 
     ast_tree = ast.parse(python_file_as_string)
 
-    import_visitor = NodeVisitor()
-    import_visitor.register_filter(GenericFilter())
-    import_visitor.visit(ast_tree)
-    print("{0} - {1}".format(path_to_python_file, _names))
+    node_visitor = NodeVisitor()
+    module_name_filter = ModuleNameFilter()
+    node_visitor.register_filter(ModuleNameFilter())
+    node_visitor.visit(ast_tree)
+    print('{0} - {1}'.format(path_to_python_file, module_name_filter.names))
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         print_module_names(path_to_python_file=sys.argv[1])
     else:
-        print("{0} <path to python file>".format(sys.argv[0]))
+        print('{0} <path to python file>'.format(sys.argv[0]))

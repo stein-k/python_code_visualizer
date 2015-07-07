@@ -16,6 +16,11 @@ from utils import path_walker
 
 class ImportFilter(Criteria):
     """Filter which visits all Import-nodes"""
+
+    def __init__(self):
+        self.module_imports = []
+        self.import_handler = ImportHandler()
+
     def wants_to_visit_descendants(self, node_parents, node):
         return True
 
@@ -23,22 +28,10 @@ class ImportFilter(Criteria):
         return isinstance(node, (ast.Import, ast.ImportFrom))
 
     def handle_node(self, node_parents, node):
-        handle_node(node)
-
-
-_import_handler = ImportHandler()
-_module_imports = []
-_all_modules = set()
-_file_paths = set()
-_m2m_relations = set()
-_m2p_relations = set()
-
-
-def handle_node(node):
-    """Adds the import to list of seen imports"""
-    for import_statement in _import_handler.handle(node):
-        what = import_statement.get('what_to_import')
-        _module_imports.append(what)
+        """Adds the import to list of seen imports"""
+        for import_statement in self.import_handler.handle(node):
+            what = import_statement.get('what_to_import')
+            self.module_imports.append(what)
 
 
 def dependency_graph(path):
@@ -47,10 +40,15 @@ def dependency_graph(path):
     between module and imports to a list, as well
     as the relation between module and file-path.
     """
-    global _module_imports
 
-    import_visitor = NodeVisitor()
-    import_visitor.register_filter(ImportFilter())
+    node_visitor = NodeVisitor()
+    import_filter = ImportFilter()
+    node_visitor.register_filter(import_filter)
+
+    all_modules = set()
+    file_paths = set()
+    m2m_relations = set()
+    m2p_relations = set()
 
     for file_path, file_name in path_walker.get_directory_structure(path):
         full_path = os.path.join(file_path, file_name)
@@ -58,38 +56,50 @@ def dependency_graph(path):
             python_file_as_string = python_file.read()
 
         ast_tree = ast.parse(python_file_as_string)
-        import_visitor.visit(ast_tree)
-        # module_imports now contains list of modules current file imports
+        import_filter.module_imports = []
+        node_visitor.visit(ast_tree)
 
         current_module = os.path.splitext(file_name)[0]
-        _file_paths.add(full_path)
-        _m2p_relations.add((current_module, full_path))
-        _all_modules.add(current_module)
-        for imported_module in _module_imports:
-            _all_modules.add(imported_module)
-            _m2m_relations.add((current_module, imported_module))
+        file_paths.add(full_path)
+        m2p_relations.add((current_module, full_path))
+        all_modules.add(current_module)
+        for imported_module in import_filter.module_imports:
+            all_modules.add(imported_module)
+            m2m_relations.add((current_module, imported_module))
+    return all_modules, file_paths, m2m_relations, m2p_relations
 
-        # empty set of modules to prepare to process next file
-        _module_imports = []
+
+def write_dependency_graph(input_path, output_path=''):
+    (
+        all_modules,
+        file_paths,
+        m2m_relations,
+        m2p_relations) = dependency_graph(path=input_path)
+
+    output = [
+        ('modules.csv', all_modules),
+        ('filepaths.csv', file_paths),
+        ('m2m_relations.csv', m2m_relations),
+        ('m2p_relations.csv', m2p_relations)
+    ]
+
+    for output_file_name, data in output:
+        output_full_path = os.path.join(output_path, output_file_name)
+        with open(output_full_path, 'w') as output_file:
+            for line in data:
+                if isinstance(line, str):
+                    output_file.write(line + '\n')
+                else:
+                    output_file.write(','.join(line) + '\n')
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2:
-        dependency_graph(path=sys.argv[1])
-        base_path = '/home/stein/Code/skunk/visualizer'
-        output = [
-            ('modules.csv', _all_modules),
-            ('filepaths.csv', _file_paths),
-            ('m2m_relations.csv', _m2m_relations),
-            ('m2p_relations.csv', _m2p_relations)
-        ]
-        for output_file_name, data in output:
-            output_full_path = os.path.join(base_path, output_file_name)
-            with open(output_full_path, 'w') as output_file:
-                for line in data:
-                    if isinstance(line, str):
-                        output_file.write(line+'\n')
-                    else:
-                        output_file.write(','.join(line)+'\n')
+    if len(sys.argv) > 1:
+        if len(sys.argv) == 3:
+            write_dependency_graph(input_path=sys.argv[1], output_path=sys.argv[2])
+        else:
+            write_dependency_graph(input_path=sys.argv[1])
     else:
-        print("{0} <path to directory>".format(sys.argv[0]))
+        print(("{0} "
+               "<path to INPUT-directory> "
+               "<optional OUTPUT-directory>").format(sys.argv[0]))
