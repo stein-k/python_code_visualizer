@@ -12,13 +12,13 @@ from ast_parser.node_utils import get_node_name
 
 class GenericFilter(Criteria):
     """Filter which visits all nodes"""
-    def is_interested_in_children(self, node_parents, node):
+    def wants_to_visit_descendants(self, node_parents, node):
         return True
 
-    def is_interested_in_node(self, node_parents, node):
+    def wants_to_handle_node(self, node_parents, node):
         return True
 
-    def visit_node(self, node_parents, node):
+    def handle_node(self, node_parents, node):
         handle_node(node_parents, node)
 
 
@@ -34,5 +34,5 @@ with open("utils/path_walker.py") as python_file:
     ast_tree = ast.parse(python_file_as_string)
 
     import_visitor = NodeVisitor()
-    import_visitor.register_visitor(GenericFilter())
+    import_visitor.register_filter(GenericFilter())
     import_visitor.visit(ast_tree)

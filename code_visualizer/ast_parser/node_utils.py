@@ -55,15 +55,15 @@ def get_node_value(node):
         return node.id
 
 
-def get_children_parent(node, node_parent):
+def get_children_parent(ascendants, node):
     """
     Returns a string with current node appended
     to its parents separated by GENERATION_SEPARATOR
 
+    :param ascendants: The nodes ascendants separated by GENERATION_SEPARATOR
     :param node: The node to get the path to
-    :param node_parent: The nodes parents separated by GENERATION_SEPARATOR
-    :return: String with path through generations for node
+    :return: String of ancestors and node separated by GENERATION_SEPARATOR
     """
     return '' \
         if isinstance(node, ast.Module) \
-        else GENERATION_SEPARATOR.join([node_parent, get_node_name(node)])
+        else GENERATION_SEPARATOR.join([ascendants, get_node_name(node)])

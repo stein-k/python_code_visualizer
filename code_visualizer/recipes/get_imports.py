@@ -16,13 +16,13 @@ from ast_parser.handlers.import_handler import ImportHandler
 
 class ImportFilter(Criteria):
     """Filter which visits all Import-nodes"""
-    def is_interested_in_children(self, node_parents, node):
+    def wants_to_visit_descendants(self, node_parents, node):
         return True
 
-    def is_interested_in_node(self, node_parents, node):
+    def wants_to_handle_node(self, node_parents, node):
         return isinstance(node, (ast.Import, ast.ImportFrom))
 
-    def visit_node(self, node_parents, node):
+    def handle_node(self, node_parents, node):
         handle_node(node)
 
 
@@ -49,7 +49,7 @@ def print_imports(path_to_python_file):
     ast_tree = ast.parse(python_file_as_string)
 
     import_visitor = NodeVisitor()
-    import_visitor.register_visitor(ImportFilter())
+    import_visitor.register_filter(ImportFilter())
     import_visitor.visit(ast_tree)
     print('{0} - {1}'.format(path_to_python_file, _module_imports))
 

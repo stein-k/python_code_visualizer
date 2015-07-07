@@ -10,40 +10,40 @@ from collections import namedtuple
 from .node_utils import get_children_parent
 
 
-StackItem = namedtuple('StackItem', ['parent', 'node'])
+StackItem = namedtuple('StackItem', ['ascendants', 'node'])
 
 
 class NodeVisitor(object):
     """Visitor that selectivly visits a syntax-tree"""
     def __init__(self):
-        self.visitors = []
+        self.filters = []
 
-    def register_visitor(self, visit_criteria):
+    def register_filter(self, filter_criteria):
         """Add criteria to visitation-criterias"""
-        self.visitors.append(visit_criteria)
+        self.filters.append(filter_criteria)
 
-    def visit(self, node_tree, visitors=None, parent=None):
-        """Selectivly visit the syntax-tree with the registered visitors"""
-        if visitors is None:
-            visitors = self.visitors
+    def visit(self, node_tree, filters=None, ascendants=None):
+        """Selectively visit the syntax-tree with the registered visitors"""
+        if filters is None:
+            filters = self.filters
 
-        current_stack = [StackItem(parent=parent, node=node_tree)]
+        current_stack = [StackItem(ascendants=ascendants, node=node_tree)]
 
         while current_stack:
-            node_parents, node = current_stack.pop(0)
+            node_ascendants, node = current_stack.pop(0)
 
-            visitors_interested_in_children = []
-            for visitor in visitors:
-                if visitor.is_interested_in_node(node_parents, node):
-                    visitor.visit_node(node_parents, node)
-                if visitor.is_interested_in_children(node_parents, node):
-                    visitors_interested_in_children.append(visitor)
+            active_filters = []
+            for node_filter in filters:
+                if node_filter.wants_to_handle_node(node_ascendants, node):
+                    node_filter.handle_node(node_ascendants, node)
+                if node_filter.wants_to_visit_descendants(node_ascendants, node):
+                    active_filters.append(node_filter)
 
-            if visitors_interested_in_children:
-                child_nodes_parent = get_children_parent(node, node_parents)
+            if active_filters:
+                child_ancestors = get_children_parent(node_ascendants, node)
                 for child in ast.iter_child_nodes(node):
                     self.visit(
                         child,
-                        visitors_interested_in_children,
-                        child_nodes_parent
+                        active_filters,
+                        child_ancestors
                     )

@@ -16,13 +16,13 @@ from utils import path_walker
 
 class ImportFilter(Criteria):
     """Filter which visits all Import-nodes"""
-    def is_interested_in_children(self, node_parents, node):
+    def wants_to_visit_descendants(self, node_parents, node):
         return True
 
-    def is_interested_in_node(self, node_parents, node):
+    def wants_to_handle_node(self, node_parents, node):
         return isinstance(node, (ast.Import, ast.ImportFrom))
 
-    def visit_node(self, node_parents, node):
+    def handle_node(self, node_parents, node):
         handle_node(node)
 
 
@@ -50,7 +50,7 @@ def dependency_graph(path):
     global _module_imports
 
     import_visitor = NodeVisitor()
-    import_visitor.register_visitor(ImportFilter())
+    import_visitor.register_filter(ImportFilter())
 
     for file_path, file_name in path_walker.get_directory_structure(path):
         full_path = os.path.join(file_path, file_name)

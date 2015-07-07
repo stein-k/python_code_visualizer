@@ -16,13 +16,13 @@ from ast_parser.handlers import __all__ as all_handlers
 
 class GenericFilter(Criteria):
     """Filter which visits all top-level nodes"""
-    def is_interested_in_children(self, node_parents, node):
+    def wants_to_visit_descendants(self, node_parents, node):
         return node_parents is None
 
-    def is_interested_in_node(self, node_parents, node):
+    def wants_to_handle_node(self, node_parents, node):
         return True
 
-    def visit_node(self, node_parents, node):
+    def handle_node(self, node_parents, node):
         handle_node(node)
 
 
@@ -51,7 +51,7 @@ def print_module_names(path_to_python_file):
     ast_tree = ast.parse(python_file_as_string)
 
     import_visitor = NodeVisitor()
-    import_visitor.register_visitor(GenericFilter())
+    import_visitor.register_filter(GenericFilter())
     import_visitor.visit(ast_tree)
     print("{0} - {1}".format(path_to_python_file, _names))
 
