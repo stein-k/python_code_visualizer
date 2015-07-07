@@ -29,7 +29,6 @@ names = []
 
 
 def handle_node(node):
-    global names
     for handler in all_handlers:
             handler_instance = handler()
             if type(node) in handler_instance.supported_types():
@@ -40,13 +39,10 @@ def handle_node(node):
 
 
 def print_module_names(path_to_python_file):
-    global names
     with open(path_to_python_file) as python_file:
         python_file_as_string = python_file.read()
 
     ast_tree = ast.parse(python_file_as_string)
-
-    names = []
 
     import_visitor = NodeVisitor()
     import_visitor.register_visitor(GenericFilter())

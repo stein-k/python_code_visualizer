@@ -30,7 +30,6 @@ module_imports = []
 
 
 def handle_node(node):
-    global module_imports
     for import_statement in import_handler.handle(node):
         what = import_statement.get('what_to_import')
         where = import_statement.get('where_to_import_from')
@@ -41,7 +40,6 @@ def handle_node(node):
 
 
 def print_imports(path_to_python_file):
-    global module_imports
     with open(path_to_python_file) as python_file:
         python_file_as_string = python_file.read()
 
@@ -56,4 +54,4 @@ if __name__ == '__main__':
     if len(sys.argv) == 2:
         print_imports(path_to_python_file=sys.argv[1])
     else:
-        print("{0} <path to directory>".format(sys.argv[0]))
+        print("{0} <path to python file>".format(sys.argv[0]))
