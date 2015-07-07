@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+Simple counter to count lines in a python file
+"""
 
 
 def get_counters_for_file(python_code_as_string):
+    """Returns the number of empty, comment and total lines"""
     counters = {
         "lines": 0,
         "emptylines": 0,

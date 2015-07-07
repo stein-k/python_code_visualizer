@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+"""Utility module for syntax-tree parsing"""
 import ast
 
 
@@ -59,6 +59,7 @@ def get_children_parent(node, node_parent):
     """
     Returns a string with current node appended
     to its parents separated by GENERATION_SEPARATOR
+
     :param node: The node to get the path to
     :param node_parent: The nodes parents separated by GENERATION_SEPARATOR
     :return: String with path through generations for node

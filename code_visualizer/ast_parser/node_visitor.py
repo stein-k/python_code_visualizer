@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+"""
+Visitor that iterates over the syntax-tree of a python code-string,
+and selectivly visits a node based on registered interested parties.
+"""
 import ast
 from collections import namedtuple
 
@@ -11,13 +14,16 @@ StackItem = namedtuple('StackItem', ['parent', 'node'])
 
 
 class NodeVisitor(object):
+    """Visitor that selectivly visits a syntax-tree"""
     def __init__(self):
         self.visitors = []
 
     def register_visitor(self, visit_criteria):
+        """Add criteria to visitation-criterias"""
         self.visitors.append(visit_criteria)
 
     def visit(self, node_tree, visitors=None, parent=None):
+        """Selectivly visit the syntax-tree with the registered visitors"""
         if visitors is None:
             visitors = self.visitors
 

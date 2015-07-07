@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+"""
+Utility to walk a path and filter on
+some properties of the seen files and directories
+"""
 import os
 
 
@@ -18,26 +21,26 @@ def get_directory_structure(path):
     """
     paths_to_check = [path]
     while paths_to_check:
-        check_path = paths_to_check.pop(0)
-        if os.path.isfile(check_path):
-            return os.path.split(check_path)
+        current_path = paths_to_check.pop(0)
+        if os.path.isfile(current_path):
+            return os.path.split(current_path)
 
-        stats = os.stat(check_path)
+        stats = os.stat(current_path)
         if stats.st_size > DIRECTORY_MAX_SIZE:
-            # print("Path contains too many files: {0}".format(check_path))
+            # print("Path contains too many files: {0}".format(current_path))
             continue
         try:
-            path_content = os.listdir(check_path)
+            path_contents = os.listdir(current_path)
         except OSError:
-            # print("Error reading path: {0}".format(check_path))
+            # print("Error reading path: {0}".format(current_path))
             continue
-        for sub_path in path_content:
-            full_path = os.path.join(check_path, sub_path)
+        for path_content in path_contents:
+            full_path = os.path.join(current_path, path_content)
             if os.path.isfile(full_path):
-                file_name, extension = os.path.splitext(sub_path)
+                _, extension = os.path.splitext(path_content)
                 if extension in WANTED_FILE_EXTENSIONS:
-                    yield check_path, sub_path
-            elif sub_path.lower() in UNWANTED_DIRECTORIES:
+                    yield current_path, path_content
+            elif path_content.lower() in UNWANTED_DIRECTORIES:
                 continue
             elif os.path.isdir(full_path):
                 paths_to_check.append(full_path)

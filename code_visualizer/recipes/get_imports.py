@@ -15,6 +15,7 @@ from ast_parser.handlers.import_handler import ImportHandler
 
 
 class ImportFilter(Criteria):
+    """Filter which visits all Import-nodes"""
     def is_interested_in_children(self, node_parents, node):
         return True
 
@@ -25,21 +26,23 @@ class ImportFilter(Criteria):
         handle_node(node)
 
 
-import_handler = ImportHandler()
-module_imports = []
+_import_handler = ImportHandler()
+_module_imports = []
 
 
 def handle_node(node):
-    for import_statement in import_handler.handle(node):
+    """Adds the import to the list of seen imports"""
+    for import_statement in _import_handler.handle(node):
         what = import_statement.get('what_to_import')
         where = import_statement.get('where_to_import_from')
         if where:
-            module_imports.append('{0}.{1}'.format(where, what))
+            _module_imports.append('{0}.{1}'.format(where, what))
         else:
-            module_imports.append('{0}'.format(what))
+            _module_imports.append('{0}'.format(what))
 
 
 def print_imports(path_to_python_file):
+    """Prints the path to the python file and the imports it has"""
     with open(path_to_python_file) as python_file:
         python_file_as_string = python_file.read()
 
@@ -48,7 +51,7 @@ def print_imports(path_to_python_file):
     import_visitor = NodeVisitor()
     import_visitor.register_visitor(ImportFilter())
     import_visitor.visit(ast_tree)
-    print('{0} - {1}'.format(path_to_python_file, module_imports))
+    print('{0} - {1}'.format(path_to_python_file, _module_imports))
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
