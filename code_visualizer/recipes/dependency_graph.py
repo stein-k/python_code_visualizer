@@ -66,7 +66,7 @@ def dependency_graph(path):
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        dependency_graph(sys.argv[1])
+        dependency_graph(path=sys.argv[1])
         base_path = '/home/stein/Code/skunk/visualizer'
         output = [
             ('modules.csv', all_modules),

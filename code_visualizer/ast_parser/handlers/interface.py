@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+"""
+Interface for node-handlers
+"""
 from abc import ABCMeta, abstractmethod, abstractproperty
 
 

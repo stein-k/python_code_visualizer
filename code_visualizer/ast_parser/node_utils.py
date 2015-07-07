@@ -20,7 +20,6 @@ def get_node_name(node):
         return node.id
     elif isinstance(node, ast.Call):
         return get_node_name(node.func)
-
     elif hasattr(node, 'name') and node.name:
         return node.name
     else:
@@ -36,24 +35,24 @@ def get_node_name(node):
         return "{type}[{line}:{col}]".format(**format_dict)
 
 
-def get_target_value(target):
+def get_node_value(node):
     """
     Returns the value of the node
 
-    :param target: The node containing the value
+    :param node: The node containing the value
     :return: The value of the node
     """
-    if isinstance(target, ast.Attribute):
-        return target.attr
-    elif isinstance(target, ast.Tuple):
+    if isinstance(node, ast.Attribute):
+        return node.attr
+    elif isinstance(node, ast.Tuple):
         return [{
-            'name': get_node_name(sub_target)
-            for sub_target in target.elts
+            'name': get_node_name(sub_node)
+            for sub_node in node.elts
             }]
-    elif isinstance(target, ast.Subscript):
-        return get_node_name(target.value)
+    elif isinstance(node, ast.Subscript):
+        return get_node_name(node.value)
     else:
-        return target.id
+        return node.id
 
 
 def get_children_parent(node, node_parent):

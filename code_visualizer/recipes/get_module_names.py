@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+Prints the names available in the global scope for a given module
 
+Run from code_visualizer with "python[3] -m recipes.get_module_names"
+"""
 import sys
 import ast
 
@@ -51,6 +55,6 @@ def print_module_names(path_to_python_file):
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        print_module_names(sys.argv[1])
+        print_module_names(path_to_python_file=sys.argv[1])
     else:
-        print("{0} <path to directory>".format(sys.argv[0]))
+        print("{0} <path to python file>".format(sys.argv[0]))

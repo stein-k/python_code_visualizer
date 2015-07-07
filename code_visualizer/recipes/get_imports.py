@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+Prints a list of imports for a given python-file.
+
+Run from code_visualizer with "python[3] -m recipes.get_imports"
+"""
 
 import sys
 import ast
@@ -23,15 +28,17 @@ class ImportFilter(Criteria):
 import_handler = ImportHandler()
 module_imports = []
 
+
 def handle_node(node):
     global module_imports
     for import_statement in import_handler.handle(node):
         what = import_statement.get('what_to_import')
         where = import_statement.get('where_to_import_from')
         if where:
-            imports.append('{0}.{1}'.format(where, what))
+            module_imports.append('{0}.{1}'.format(where, what))
         else:
-            imports.append('{0}'.format(what))
+            module_imports.append('{0}'.format(what))
+
 
 def print_imports(path_to_python_file):
     global module_imports
@@ -43,10 +50,10 @@ def print_imports(path_to_python_file):
     import_visitor = NodeVisitor()
     import_visitor.register_visitor(ImportFilter())
     import_visitor.visit(ast_tree)
-    print('{0} - {1}'.format(path_to_python_file, imports))
+    print('{0} - {1}'.format(path_to_python_file, module_imports))
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        print_imports(sys.argv[1])
+        print_imports(path_to_python_file=sys.argv[1])
     else:
         print("{0} <path to directory>".format(sys.argv[0]))

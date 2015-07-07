@@ -1,21 +1,28 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+"""
+Handles Assign-nodes in an AST-tree
+"""
 import ast
 
 from .interface import HandlerInterface
-from ..node_utils import get_target_value
+from ..node_utils import get_node_name, get_node_value
 
 
 class AssignmentHandler(HandlerInterface):
     """
         {
-            'name': '<name>'
+            'name': '<name>',
+            'value': '<value>'
         }
     """
     def handle(self, node):
-        target_value = get_target_value(node.target)
-        return target_value if isinstance(target_value, list) else [target_value]
+        return [
+            {
+                'name': get_node_name(target),
+                'value': get_node_value(target)
+            } for target in node.targets
+        ]
 
     def supported_types(self):
         return [ast.Assign]

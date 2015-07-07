@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+"""
+Handles ClassDef-nodes in an AST-tree
+"""
 import ast
 
 from .interface import HandlerInterface
