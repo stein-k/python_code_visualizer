@@ -70,6 +70,7 @@ def dependency_graph(path):
 
 
 def write_dependency_graph(input_path, output_path=''):
+    """Writes the dependency graph to a set of files"""
     (
         all_modules,
         file_paths,
