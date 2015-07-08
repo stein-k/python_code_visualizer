@@ -8,10 +8,10 @@ GENERATION_SEPARATOR = '.'
 
 def get_node_name(node):
     """
-    Returns the name identifying the node
+    Returns the name identifying the node.
 
-    :param node The node which to name
-    :return: The name identifying the node
+    :param node: The node which to name
+    :returns: The name identifying the node
     """
     if isinstance(node, ast.Attribute):
         return node.attr
@@ -36,7 +36,7 @@ def get_node_name(node):
 
 def get_node_value(node):
     """
-    Returns the value of the node
+    Returns the value of the node.
 
     :param node: The node containing the value
     :return: The value of the node
@@ -57,12 +57,15 @@ def get_node_value(node):
 def get_children_parent(ascendants, node):
     """
     Returns a string with current node appended
-    to its parents separated by GENERATION_SEPARATOR
+    to its parents separated by GENERATION_SEPARATOR.
 
     :param ascendants: The nodes ascendants separated by GENERATION_SEPARATOR
     :param node: The node to get the path to
-    :return: String of ancestors and node separated by GENERATION_SEPARATOR
+    :returns: String of ancestors and node separated by GENERATION_SEPARATOR,
+        if node is ast.Module (the base of the parse tree),
+        an empty string is returned
     """
-    return '' \
-        if isinstance(node, ast.Module) \
-        else GENERATION_SEPARATOR.join([ascendants, get_node_name(node)])
+    if isinstance(node, ast.Module):
+        return ''
+    else:
+        return GENERATION_SEPARATOR.join([ascendants, get_node_name(node)])

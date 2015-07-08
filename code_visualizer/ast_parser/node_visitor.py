@@ -13,12 +13,12 @@ StackItem = namedtuple('StackItem', ['ascendants', 'node'])
 
 
 class NodeVisitor(object):
-    """Visitor that selectivly visits a syntax-tree"""
+    """Visitor that selectively visits a syntax-tree"""
     def __init__(self):
         self.filters = []
 
     def register_filter(self, filter_criteria):
-        """Add criteria to visitation-criterias"""
+        """Add criteria to visitation-criteria"""
         self.filters.append(filter_criteria)
 
     def visit(self, node_tree, filters=None, ascendants=None):
@@ -42,7 +42,7 @@ class NodeVisitor(object):
                 child_ancestors = get_children_parent(node_ascendants, node)
                 for child in ast.iter_child_nodes(node):
                     self.visit(
-                        child,
-                        active_filters,
-                        child_ancestors
+                        node_tree=child,
+                        filters=active_filters,
+                        ascendants=child_ancestors
                     )
