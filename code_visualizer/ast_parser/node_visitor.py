@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Visitor that iterates over the syntax-tree of a python code-string,
