@@ -20,18 +20,16 @@ class ImportFilter(Criteria):
         self.module_imports = []
         self.import_handler = ImportHandler()
 
-    def wants_to_handle_node(self, node_parents, node):
-        return isinstance(node, (ast.Import, ast.ImportFrom))
-
     def handle_node(self, node_parents, node):
         """Adds the import to the list of seen imports"""
-        for import_statement in self.import_handler.handle(node):
-            what = import_statement.get('what_to_import')
-            where = import_statement.get('where_to_import_from')
-            if where:
-                self.module_imports.append('{0}.{1}'.format(where, what))
-            else:
-                self.module_imports.append('{0}'.format(what))
+        if isinstance(node, (ast.Import, ast.ImportFrom)):
+            for import_statement in self.import_handler.handle(node):
+                what = import_statement.get('what_to_import')
+                where = import_statement.get('where_to_import_from')
+                if where:
+                    self.module_imports.append('{0}.{1}'.format(where, what))
+                else:
+                    self.module_imports.append('{0}'.format(what))
 
 
 def print_imports(path_to_python_file):

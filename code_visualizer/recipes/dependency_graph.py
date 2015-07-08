@@ -24,14 +24,12 @@ class ImportFilter(Criteria):
     def wants_to_visit_descendants(self, node_parents, node):
         return True
 
-    def wants_to_handle_node(self, node_parents, node):
-        return isinstance(node, (ast.Import, ast.ImportFrom))
-
     def handle_node(self, node_parents, node):
         """Adds the import to list of seen imports"""
-        for import_statement in self.import_handler.handle(node):
-            what = import_statement.get('what_to_import')
-            self.module_imports.append(what)
+        if isinstance(node, (ast.Import, ast.ImportFrom)):
+            for import_statement in self.import_handler.handle(node):
+                what = import_statement.get('what_to_import')
+                self.module_imports.append(what)
 
 
 def dependency_graph(path):

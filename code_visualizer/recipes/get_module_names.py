@@ -23,9 +23,6 @@ class ModuleNameFilter(Criteria):
     def wants_to_visit_descendants(self, node_parents, node):
         return node_parents is None
 
-    def wants_to_handle_node(self, node_parents, node):
-        return True
-
     def handle_node(self, node_parents, node):
         """Adds the name of the node to the list of seen names"""
         for handler in all_handlers:
@@ -49,7 +46,7 @@ def print_module_names(path_to_python_file):
 
     node_visitor = NodeVisitor()
     module_name_filter = ModuleNameFilter()
-    node_visitor.register_filter(ModuleNameFilter())
+    node_visitor.register_filter(module_name_filter)
     node_visitor.visit(ast_tree)
     print('{0} - {1}'.format(path_to_python_file, module_name_filter.names))
 

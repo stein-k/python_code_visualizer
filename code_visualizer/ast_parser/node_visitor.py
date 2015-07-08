@@ -33,8 +33,7 @@ class NodeVisitor(object):
 
             active_filters = []
             for node_filter in filters:
-                if node_filter.wants_to_handle_node(node_ascendants, node):
-                    node_filter.handle_node(node_ascendants, node)
+                node_filter.handle_node(node_ascendants, node)
                 if node_filter.wants_to_visit_descendants(node_ascendants, node):
                     active_filters.append(node_filter)
 
