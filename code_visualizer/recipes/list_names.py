@@ -13,11 +13,6 @@ from ast_parser.node_utils import get_node_name
 
 class AllNameFilter(Criteria):
     """Filter which visits all nodes"""
-    def wants_to_visit_descendants(self, node_parents, node):
-        return True
-
-    def wants_to_handle_node(self, node_parents, node):
-        return True
 
     def handle_node(self, node_parents, node):
         """Prints the name of a node, indented one space per parent"""

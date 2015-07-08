@@ -20,9 +20,6 @@ class ImportFilter(Criteria):
         self.module_imports = []
         self.import_handler = ImportHandler()
 
-    def wants_to_visit_descendants(self, node_parents, node):
-        return True
-
     def wants_to_handle_node(self, node_parents, node):
         return isinstance(node, (ast.Import, ast.ImportFrom))
 
