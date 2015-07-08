@@ -30,7 +30,7 @@ class ModuleNameFilter(Criteria):
         """Adds the name of the node to the list of seen names"""
         for handler in all_handlers:
             handler_instance = handler()
-            if type(node) in handler_instance.supported_types():
+            if isinstance(node, handler_instance.supported_types):
                 node_list = handler_instance.handle(node)
                 self.names.extend(
                     [node_element.get('name') for node_element in node_list]

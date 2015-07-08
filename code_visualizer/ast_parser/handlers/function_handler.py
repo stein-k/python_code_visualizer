@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Handles FunctionDef-nodes in an AST-tree
@@ -34,4 +33,4 @@ class FunctionHandler(HandlerInterface):
         }]
 
     def supported_types(self):
-        return [ast.FunctionDef]
+        return ast.FunctionDef,

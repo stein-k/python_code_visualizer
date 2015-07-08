@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Handles ClassDef-nodes in an AST-tree
@@ -26,4 +25,4 @@ class ClassHandler(HandlerInterface):
         }]
 
     def supported_types(self):
-        return [ast.ClassDef]
+        return ast.ClassDef,

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Handles Import-nodes and ImportFrom-nodes in an AST-tree
@@ -35,4 +34,4 @@ class ImportHandler(HandlerInterface):
             } for name in node.names]
 
     def supported_types(self):
-        return [ast.Import, ast.ImportFrom]
+        return ast.Import, ast.ImportFrom

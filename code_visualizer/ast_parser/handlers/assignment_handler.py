@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Handles Assign-nodes in an AST-tree
@@ -25,4 +24,4 @@ class AssignmentHandler(HandlerInterface):
         ]
 
     def supported_types(self):
-        return [ast.Assign]
+        return ast.Assign,
