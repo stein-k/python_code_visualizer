@@ -33,5 +33,6 @@ class ImportHandler(HandlerInterface):
                 'level': import_level
             } for name in node.names]
 
+    @property
     def supported_types(self):
         return ast.Import, ast.ImportFrom

@@ -23,5 +23,6 @@ class AssignmentHandler(HandlerInterface):
             } for target in node.targets
         ]
 
+    @property
     def supported_types(self):
         return ast.Assign,

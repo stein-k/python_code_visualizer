@@ -24,5 +24,6 @@ class ClassHandler(HandlerInterface):
             'bases': bases
         }]
 
+    @property
     def supported_types(self):
         return ast.ClassDef,

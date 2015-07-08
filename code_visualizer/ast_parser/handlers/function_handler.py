@@ -32,5 +32,6 @@ class FunctionHandler(HandlerInterface):
                 ]
         }]
 
+    @property
     def supported_types(self):
         return ast.FunctionDef,
