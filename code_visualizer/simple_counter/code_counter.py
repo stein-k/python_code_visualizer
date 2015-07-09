@@ -9,8 +9,8 @@ def get_counters_for_file(python_code_as_string):
     """Returns the number of empty, comment and total lines"""
     counters = {
         "lines": 0,
-        "emptylines": 0,
-        "commentline": 0
+        "empty_lines": 0,
+        "comment_lines": 0
     }
 
     current_block_comment_string = None
@@ -29,9 +29,9 @@ def get_counters_for_file(python_code_as_string):
                 current_block_comment_string = None
         else:
             if stripped_line == "":
-                counters["emptylines"] += 1
+                counters["empty_lines"] += 1
 
             if stripped_line.startswith("#"):
-                counters["commentline"] += 1
+                counters["comment_lines"] += 1
 
     return counters
