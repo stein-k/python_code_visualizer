@@ -16,8 +16,8 @@ class AllNameFilter(Criteria):
 
     def handle_node(self, node_parents, node):
         """Prints the name of a node, indented one space per parent"""
-        spacing = len(node_parents.split("."))*" " if node_parents else ""
-        print("{0}{1}".format(spacing, get_node_name(node)))
+        spacing = len(node_parents.split('.'))*' ' if node_parents else ''
+        print('{0}{1}'.format(spacing, get_node_name(node)))
 
 
 def print_all_names(path_to_python_file):
