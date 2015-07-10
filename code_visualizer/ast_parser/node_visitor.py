@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Visitor that iterates over the syntax-tree of a python code-string,
-and selectivly visits a node based on registered interested parties.
+and notifies filters of individual code-elements seen.
 """
 import ast
 from collections import namedtuple
@@ -22,7 +22,10 @@ class NodeVisitor(object):
         self.filters.append(filter_criteria)
 
     def visit(self, node_tree, filters=None, ascendants=None):
-        """Selectively visit the syntax-tree with the registered visitors"""
+        """
+        Selectively visit the syntax-tree with the registered visitors,
+        and allow filters to handle code-elements they are interested in
+        """
         if filters is None:
             filters = self.filters
 
