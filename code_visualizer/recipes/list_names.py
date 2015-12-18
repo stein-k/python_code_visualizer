@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 Prints the structure of a python file as indented node-names.
+
+Run from code_visualizer with "python[3] -m recipes.list_names"
 """
 import sys
 import ast

@@ -3,6 +3,8 @@
 """
 Creates a dependency-graph from a directory of python files
 which it writes to files.
+
+Run from code_visualizer with "python[3] -m recipes.dependency_graph"
 """
 import sys
 import os
