@@ -7,7 +7,7 @@ some properties of the seen files and directories
 import os
 
 
-DIRECTORY_MAX_SIZE = 32000
+DIRECTORY_MAX_SIZE_IN_BYTES = 32000
 UNWANTED_DIRECTORIES = ['.git', '.svn']
 WANTED_FILE_EXTENSIONS = ['.py']
 
@@ -26,7 +26,7 @@ def get_directory_structure(path):
             return os.path.split(current_path)
 
         stats = os.stat(current_path)
-        if stats.st_size > DIRECTORY_MAX_SIZE:
+        if stats.st_size > DIRECTORY_MAX_SIZE_IN_BYTES:
             # print("Path contains too many files: {0}".format(current_path))
             continue
         try:
