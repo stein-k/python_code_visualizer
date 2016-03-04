@@ -5,6 +5,7 @@ Prints the names available in the global scope for a given module
 
 Run from code_visualizer with "python[3] -m recipes.get_module_names"
 """
+from __future__ import print_function
 import sys
 import ast
 
@@ -14,7 +15,7 @@ from ast_parser.node_filter import Criteria
 from ast_parser.handlers import __all__ as all_handlers
 
 
-class ModuleNameFilter(Criteria):
+class _ModuleNameFilter(Criteria):
     """Filter which visits all top-level nodes"""
 
     def __init__(self):
@@ -45,7 +46,7 @@ def print_module_names(path_to_python_file):
     ast_tree = ast.parse(python_file_as_string)
 
     node_visitor = NodeVisitor()
-    module_name_filter = ModuleNameFilter()
+    module_name_filter = _ModuleNameFilter()
     node_visitor.register_filter(module_name_filter)
     node_visitor.visit(ast_tree)
     print('{0} - {1}'.format(path_to_python_file, module_name_filter.names))

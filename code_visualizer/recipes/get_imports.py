@@ -5,7 +5,7 @@ Prints a list of imports for a given python-file.
 
 Run from code_visualizer with "python[3] -m recipes.get_imports"
 """
-
+from __future__ import print_function
 import sys
 import ast
 
@@ -14,7 +14,7 @@ from ast_parser.node_filter import Criteria
 from ast_parser.handlers.import_handler import ImportHandler
 
 
-class ImportFilter(Criteria):
+class _ImportFilter(Criteria):
     """Filter which visits all Import-nodes"""
     def __init__(self):
         self.module_imports = []
@@ -40,10 +40,12 @@ def print_imports(path_to_python_file):
     ast_tree = ast.parse(python_file_as_string)
 
     import_visitor = NodeVisitor()
-    import_filter = ImportFilter()
+    import_filter = _ImportFilter()
     import_visitor.register_filter(import_filter)
     import_visitor.visit(ast_tree)
-    print('{0} - {1}'.format(path_to_python_file, import_filter.module_imports))
+    print('{0} - {1}'.format(
+        path_to_python_file,
+        import_filter.module_imports))
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:

@@ -97,7 +97,7 @@ def write_dependency_graph(input_path, output_path=''):
                 elif isinstance(line, collections.Iterable):
                     output_file.write(','.join(line) + '\n')
                 else:
-                    print('line intended for {} unexpected: ({})'.format(
+                    print('line intended for {0} unexpected: ({1})'.format(
                         output_full_path, type(line)))
 
 

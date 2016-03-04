@@ -5,6 +5,7 @@ Prints the structure of a python file as indented node-names.
 
 Run from code_visualizer with "python[3] -m recipes.list_names"
 """
+from __future__ import print_function
 import sys
 import ast
 
@@ -38,4 +39,4 @@ if __name__ == '__main__':
     if len(sys.argv) == 2:
         print_all_names(path_to_python_file=sys.argv[1])
     else:
-        print('{} <path to python file>'.format(sys.argv[0]))
+        print('{0} <path to python file>'.format(sys.argv[0]))
