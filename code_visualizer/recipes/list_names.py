@@ -14,7 +14,7 @@ from ast_parser.node_filter import Criteria
 from ast_parser.node_utils import get_node_name
 
 
-class AllNameFilter(Criteria):
+class _AllNameFilter(Criteria):
     """Filter which visits all nodes"""
 
     def handle_node(self, node_parents, node):
@@ -29,9 +29,7 @@ def print_all_names(path_to_python_file):
 
     ast_tree = ast.parse(python_file_as_string)
 
-    node_visitor = NodeVisitor()
-    all_name_filter = AllNameFilter()
-    node_visitor.register_filter(all_name_filter)
+    node_visitor = NodeVisitor(_AllNameFilter())
     node_visitor.visit(ast_tree)
 
 

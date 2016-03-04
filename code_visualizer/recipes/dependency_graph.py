@@ -45,9 +45,8 @@ def dependency_graph(path):
     :param path str: path to create dependency graph for.
     """
 
-    node_visitor = NodeVisitor()
     import_filter = _ImportFilter()
-    node_visitor.register_filter(import_filter)
+    node_visitor = NodeVisitor(import_filter)
 
     all_modules = set()
     file_paths = set()

@@ -39,9 +39,8 @@ def print_imports(path_to_python_file):
 
     ast_tree = ast.parse(python_file_as_string)
 
-    import_visitor = NodeVisitor()
     import_filter = _ImportFilter()
-    import_visitor.register_filter(import_filter)
+    import_visitor = NodeVisitor(import_filter)
     import_visitor.visit(ast_tree)
     print('{0} - {1}'.format(
         path_to_python_file,

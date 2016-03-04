@@ -45,9 +45,8 @@ def print_module_names(path_to_python_file):
 
     ast_tree = ast.parse(python_file_as_string)
 
-    node_visitor = NodeVisitor()
     module_name_filter = _ModuleNameFilter()
-    node_visitor.register_filter(module_name_filter)
+    node_visitor = NodeVisitor(module_name_filter)
     node_visitor.visit(ast_tree)
     print('{0} - {1}'.format(path_to_python_file, module_name_filter.names))
 
