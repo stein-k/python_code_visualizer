@@ -3,6 +3,7 @@
 """
 Main class that prints the python files of a directory and sub-directories
 """
+from __future__ import print_function
 import sys
 
 from utils.path_walker import get_directory_structure
