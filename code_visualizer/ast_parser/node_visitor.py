@@ -13,8 +13,12 @@ StackItem = namedtuple('StackItem', ['ascendants', 'node'])
 
 
 class NodeVisitor(object):
-    """Visitor that selectively visits a syntax-tree"""
     def __init__(self, initial_filter=None):
+        """Visitor that selectively visits a syntax-tree
+
+        :param initial_filter Criteria: filter for this visitor
+        """
+
         if initial_filter is None:
             self.filters = []
         else:
