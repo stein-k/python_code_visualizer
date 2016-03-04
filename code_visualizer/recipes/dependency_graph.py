@@ -6,9 +6,11 @@ which it writes to files.
 
 Run from code_visualizer with "python[3] -m recipes.dependency_graph"
 """
+from __future__ import print_function
 import sys
 import os
 import ast
+import collections
 
 from ast_parser.node_visitor import NodeVisitor
 from ast_parser.node_filter import Criteria
@@ -16,8 +18,8 @@ from ast_parser.handlers.import_handler import ImportHandler
 from utils import path_walker
 
 
-class ImportFilter(Criteria):
-    """Filter which visits all Import-nodes"""
+class _ImportFilter(Criteria):
+    """Filter which visits all Import-nodes."""
 
     def __init__(self):
         self.module_imports = []
@@ -27,7 +29,7 @@ class ImportFilter(Criteria):
         return True
 
     def handle_node(self, node_parents, node):
-        """Adds the import to list of seen imports"""
+        """Adds the import to list of seen imports."""
         if isinstance(node, (ast.Import, ast.ImportFrom)):
             for import_statement in self.import_handler.handle(node):
                 what = import_statement.get('what_to_import')
@@ -39,10 +41,12 @@ def dependency_graph(path):
     Iterates over files in path and adds the relation
     between module and imports to a list, as well
     as the relation between module and file-path.
+
+    :param path str: path to create dependency graph for.
     """
 
     node_visitor = NodeVisitor()
-    import_filter = ImportFilter()
+    import_filter = _ImportFilter()
     node_visitor.register_filter(import_filter)
 
     all_modules = set()
@@ -90,16 +94,22 @@ def write_dependency_graph(input_path, output_path=''):
             for line in data:
                 if isinstance(line, str):
                     output_file.write(line + '\n')
-                else:
+                elif isinstance(line, collections.Iterable):
                     output_file.write(','.join(line) + '\n')
+                else:
+                    print('line intended for {} unexpected: ({})'.format(
+                        output_full_path, type(line)))
 
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         if len(sys.argv) == 3:
-            write_dependency_graph(input_path=sys.argv[1], output_path=sys.argv[2])
+            write_dependency_graph(
+                input_path=sys.argv[1],
+                output_path=sys.argv[2])
         else:
-            write_dependency_graph(input_path=sys.argv[1])
+            write_dependency_graph(
+                input_path=sys.argv[1])
     else:
         print(("{0} "
                "<path to INPUT-directory> "
