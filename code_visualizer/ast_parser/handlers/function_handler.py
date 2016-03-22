@@ -21,6 +21,11 @@ class FunctionHandler(HandlerInterface):
         }
     """
     def handle(self, node):
+        """Return information about function node.
+
+        :param node: a function definition node
+        :return: list of dictionaries of function name/arguments
+        """
         return [{
             'name': node.name,
             'vararg': node.args.vararg,

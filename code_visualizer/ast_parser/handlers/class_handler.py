@@ -16,12 +16,14 @@ class ClassHandler(HandlerInterface):
         }
         """
     def handle(self, node):
-        bases = []
-        for base in node.bases:
-            bases.append(get_node_name(base))
+        """Return the name/bases of base for class node.
+
+        :param node: a class definition node
+        :return: list of dicts with name and bases for each base
+        """
         return [{
             'name': node.name,
-            'bases': bases
+            'bases': [get_node_name(base) for base in node.bases]
         }]
 
     @property

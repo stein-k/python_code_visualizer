@@ -16,6 +16,11 @@ class AssignmentHandler(HandlerInterface):
         }
     """
     def handle(self, node):
+        """Return the name/values of target for the assignment node.
+
+        :param node: assignment node
+        :return: list of dicts with name and value for each node.target
+        """
         return [
             {
                 'name': get_node_name(target),

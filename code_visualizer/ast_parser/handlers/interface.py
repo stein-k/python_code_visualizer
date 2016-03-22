@@ -11,7 +11,10 @@ class HandlerInterface(object):
 
     @abstractmethod
     def handle(self, node):
-        """The node-handling implementation"""
+        """The node-handling implementation
+
+        :param node: Node which the handler handles
+        """
         pass
 
     @property
@@ -19,4 +22,3 @@ class HandlerInterface(object):
     def supported_types(self):
         """List of supported types"""
         return ()
-

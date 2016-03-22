@@ -18,6 +18,11 @@ class ImportHandler(HandlerInterface):
         }
         """
     def handle(self, node):
+        """Return
+
+        :param node:
+        :return:
+        """
         if isinstance(node, ast.ImportFrom):
             import_origin = node.module
             import_level = node.level
