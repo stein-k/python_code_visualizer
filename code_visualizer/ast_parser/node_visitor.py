@@ -14,7 +14,7 @@ StackItem = namedtuple('StackItem', ['ascendants', 'node'])
 
 class NodeVisitor(object):
     def __init__(self, initial_filter=None):
-        """Visitor that selectively visits a syntax-tree
+        """Visitor that selectively visits a syntax-tree.
 
         :param initial_filter Criteria: filter for this visitor
         """
