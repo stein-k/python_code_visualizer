@@ -12,7 +12,10 @@ import ast
 from ast_parser.node_visitor import NodeVisitor
 from ast_parser.node_filter import Criteria
 
-from ast_parser.handlers import __all__ as all_handlers
+from ast_parser.handlers import assignment_handler, class_handler, function_handler, import_handler
+
+
+_all_handlers = [assignment_handler, class_handler, function_handler, import_handler]
 
 
 class _ModuleNameFilter(Criteria):
@@ -30,7 +33,7 @@ class _ModuleNameFilter(Criteria):
         :param node_parents: string of node parents
         :param node: current node
         """
-        for handler in all_handlers:
+        for handler in _all_handlers:
             handler_instance = handler()
             if isinstance(node, handler_instance.supported_types):
                 node_list = handler_instance.handle(node)
