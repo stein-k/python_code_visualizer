@@ -21,7 +21,11 @@ class _ImportFilter(Criteria):
         self.import_handler = ImportHandler()
 
     def handle_node(self, node_parents, node):
-        """Adds the import to the list of seen imports"""
+        """Adds the import to the list of seen imports
+
+        :param node_parents: string of node parents
+        :param node: current node
+        """
         if isinstance(node, (ast.Import, ast.ImportFrom)):
             for import_statement in self.import_handler.handle(node):
                 what = import_statement.get('what_to_import')
@@ -33,7 +37,10 @@ class _ImportFilter(Criteria):
 
 
 def print_imports(path_to_python_file):
-    """Prints the path to the python file and the imports it has"""
+    """Prints the path to the python file and the imports it has
+
+    :param path_to_python_file: path of python file to print imports for
+    """
     with open(path_to_python_file) as python_file:
         python_file_as_string = python_file.read()
 

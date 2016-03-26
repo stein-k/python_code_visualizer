@@ -18,12 +18,21 @@ class _AllNameFilter(Criteria):
     """Filter which visits all nodes"""
 
     def handle_node(self, node_parents, node):
-        """Prints the name of a node, indented one space per parent"""
+        """Prints the name of a node, indented one space per parent
+
+        :param node_parents: string of node parents
+        :param node: current node
+        """
         spacing = len(node_parents.split('.'))*' ' if node_parents else ''
         print('{0}{1}'.format(spacing, get_node_name(node)))
 
 
 def print_all_names(path_to_python_file):
+    """
+    Prints a list of the names accessible in the module
+
+    :param path_to_python_file: path of python file to print module names for
+    """
     with open(path_to_python_file) as python_file:
         python_file_as_string = python_file.read()
 

@@ -25,7 +25,11 @@ class _ModuleNameFilter(Criteria):
         return node_parents is None
 
     def handle_node(self, node_parents, node):
-        """Adds the name of the node to the list of seen names"""
+        """Adds the name of the node to the list of seen names
+
+        :param node_parents: string of node parents
+        :param node: current node
+        """
         for handler in all_handlers:
             handler_instance = handler()
             if isinstance(node, handler_instance.supported_types):
@@ -39,6 +43,8 @@ def print_module_names(path_to_python_file):
     """
     Prints the path to the python file
     and a list of the names accessible in the module
+
+    :param path_to_python_file: path of python file to print module names for
     """
     with open(path_to_python_file) as python_file:
         python_file_as_string = python_file.read()
