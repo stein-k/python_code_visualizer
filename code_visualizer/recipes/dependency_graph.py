@@ -29,7 +29,11 @@ class _ImportFilter(Criteria):
         return True
 
     def handle_node(self, node_parents, node):
-        """Adds the import to list of seen imports."""
+        """Adds the import to list of seen imports.
+
+        :param node_parents: String of node parents
+        :param node; Current node
+        """
         if isinstance(node, (ast.Import, ast.ImportFrom)):
             for import_statement in self.import_handler.handle(node):
                 what = import_statement.get('what_to_import')
@@ -42,7 +46,7 @@ def dependency_graph(path):
     between module and imports to a list, as well
     as the relation between module and file-path.
 
-    :param path str: path to create dependency graph for.
+    :param path: path to create dependency graph for.
     """
 
     import_filter = _ImportFilter()
@@ -73,7 +77,11 @@ def dependency_graph(path):
 
 
 def write_dependency_graph(input_path, output_path=''):
-    """Writes the dependency graph to a set of files"""
+    """Writes the dependency graph to a set of files
+
+    :param input_path: path to create dependency-graph for
+    :param output_path: path to write write result to
+    """
     (
         all_modules,
         file_paths,
