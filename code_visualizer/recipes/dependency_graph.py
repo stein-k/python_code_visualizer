@@ -90,7 +90,7 @@ def write_dependency_graph(input_path, output_path=''):
 
     output = [
         ('modules.csv', all_modules),
-        ('filepaths.csv', file_paths),
+        ('file_paths.csv', file_paths),
         ('m2m_relations.csv', m2m_relations),
         ('m2p_relations.csv', m2p_relations)
     ]
