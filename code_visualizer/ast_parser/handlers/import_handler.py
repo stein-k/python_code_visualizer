@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Handles Import-nodes and ImportFrom-nodes in an AST-tree
+Handles Import-nodes and ImportFrom-nodes in an AST
 """
 import ast
 

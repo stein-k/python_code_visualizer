@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Handles FunctionDef-nodes in an AST-tree
+Handles FunctionDef-nodes in an AST
 """
 import ast
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Handles Assign-nodes in an AST-tree
+Handles Assign-nodes in an AST
 """
 import ast
 

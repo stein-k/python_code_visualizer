@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Handles ClassDef-nodes in an AST-tree
+Handles ClassDef-nodes in an AST
 """
 import ast
 
