@@ -8,7 +8,7 @@ from .interface import HandlerInterface
 
 
 class ImportHandler(HandlerInterface):
-    """
+    """Return a dict of information about an import
         {
             'where_to_import_from': '<where_to_import_from>',
             'what_to_import': '<what_to_import>',
@@ -18,10 +18,12 @@ class ImportHandler(HandlerInterface):
         }
         """
     def handle(self, node):
-        """Return
+        """Return import dict
 
-        :param node:
-        :return:
+        :param node: a supported node
+        :type node: ast.Import, ast.ImportFrom
+
+        :return: dictionary from import node
         """
         if isinstance(node, ast.ImportFrom):
             import_origin = node.module
@@ -40,4 +42,8 @@ class ImportHandler(HandlerInterface):
 
     @property
     def supported_types(self):
+        """
+        class Import(names)
+        class ImportFrom(module, names, level)
+        """
         return ast.Import, ast.ImportFrom

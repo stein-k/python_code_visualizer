@@ -9,7 +9,7 @@ from ..node_utils import get_node_name, get_node_value
 
 
 class AssignmentHandler(HandlerInterface):
-    """
+    """Returns a dict of an Assignment
         {
             'name': '<name>',
             'value': '<value>'
@@ -18,7 +18,9 @@ class AssignmentHandler(HandlerInterface):
     def handle(self, node):
         """Return the name/values of target for the assignment node.
 
-        :param node: assignment node
+        :param node: a supported node
+        :type node: ast.Assign
+
         :return: list of dicts with name and value for each node.target
         """
         return [
@@ -30,4 +32,7 @@ class AssignmentHandler(HandlerInterface):
 
     @property
     def supported_types(self):
+        """
+        class Assign(targets, value)
+        """
         return ast.Assign,

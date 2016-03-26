@@ -24,6 +24,8 @@ class FunctionHandler(HandlerInterface):
         """Return information about function node.
 
         :param node: a function definition node
+        :type node: ast.FunctionDef
+
         :return: list of dictionaries of function name/arguments
         """
         return [{
@@ -39,4 +41,7 @@ class FunctionHandler(HandlerInterface):
 
     @property
     def supported_types(self):
+        """
+        class FunctionDef(name, args, body, decorator_list, returns)
+        """
         return ast.FunctionDef,
