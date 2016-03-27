@@ -50,6 +50,8 @@ def get_node_value(node):
             }]
     elif isinstance(node, ast.Subscript):
         return get_node_name(node.value)
+    elif isinstance(node, ast.Str):
+        return node.s
     else:
         return node.id
 
