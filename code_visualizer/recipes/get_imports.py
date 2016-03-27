@@ -26,7 +26,7 @@ class _ImportFilter(Criteria):
         :param node_parents: string of node parents
         :param node: current node
         """
-        if isinstance(node, (ast.Import, ast.ImportFrom)):
+        if isinstance(node, self.import_handler.supported_types):
             for import_statement in self.import_handler.handle(node):
                 what = import_statement.get('what_to_import')
                 where = import_statement.get('where_to_import_from')
