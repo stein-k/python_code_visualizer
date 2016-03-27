@@ -16,7 +16,8 @@ class NodeVisitor(object):
     def __init__(self, initial_filter=None):
         """Visitor that selectively visits a syntax-tree.
 
-        :param initial_filter Criteria: filter for this visitor
+        :param initial_filter: filter for this visitor
+        :type initial_filter: Criteria
         """
 
         if initial_filter is None:
@@ -25,7 +26,11 @@ class NodeVisitor(object):
             self.filters = [initial_filter]
 
     def register_filter(self, filter_criteria):
-        """Add criteria to visitation-criteria"""
+        """Add criteria to visitation-criteria
+
+        :param filter_criteria: filter for this visitor
+        :type filter_criteria: Criteria
+        """
         self.filters.append(filter_criteria)
 
     def visit(self, node_tree, filters=None, ascendants=None):
