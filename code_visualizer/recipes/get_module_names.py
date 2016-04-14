@@ -36,8 +36,9 @@ class _ModuleNameFilter(Criteria):
         :param node_parents: string of node parents
         :param node: current node
         """
-        for paser in _all_parsers:
-            parser_instance = paser()
+        # TODO: handle if-statements and the nodes within...
+        for parser in _all_parsers:
+            parser_instance = parser()
             if isinstance(node, parser_instance.supported_types):
                 node_list = parser_instance.parse(node)
                 self.names.extend(
@@ -47,24 +48,41 @@ class _ModuleNameFilter(Criteria):
 
 def print_module_names(path_to_python_file):
     """
-    Prints the path to the python file
-    and a list of the names accessible in the module
+    Return a list of the names accessible in the module
 
-    :param path_to_python_file: path of python file to print module names for
+    :param path_to_python_file: path of python file to get module names for
+    :type path_to_python_file: str
+
+    :return List of names in module
+    :rtype: List of str
     """
     with open(path_to_python_file) as python_file:
         python_file_as_string = python_file.read()
+    return get_module_names_in_string(python_file_as_string)
 
-    ast_tree = ast.parse(python_file_as_string)
+
+def get_module_names_in_string(code_as_string):
+    """
+    Return a list of the names accessible in the module
+
+    :param code_as_string: python code to get module names for
+    :type code_as_string: str
+
+    :return List of names in module
+    :rtype: List of str
+    """
+    ast_tree = ast.parse(code_as_string)
 
     module_name_filter = _ModuleNameFilter()
     node_visitor = NodeVisitor(module_name_filter)
     node_visitor.visit(ast_tree)
-    print('{0} - {1}'.format(path_to_python_file, module_name_filter.names))
+    return module_name_filter.names
 
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        print_module_names(path_to_python_file=sys.argv[1])
+        python_file = sys.argv[1]
+        list_of_names = print_module_names(path_to_python_file=sys.argv[1])
+        print('{0} - {1}'.format(python_file, list_of_names))
     else:
         print('{0} <path to python file>'.format(sys.argv[0]))
