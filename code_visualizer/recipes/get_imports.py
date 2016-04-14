@@ -6,16 +6,18 @@ Prints a list of imports for a given python-file.
 Run from code_visualizer with "python[3] -m recipes.get_imports"
 """
 from __future__ import print_function
-import sys
-import ast
 
-from ast_parser.node_visitor import NodeVisitor
-from ast_parser.node_filter import Criteria
+import ast
+import sys
+
 from ast_parser.handlers.import_handler import ImportHandler
+from ast_parser.node_filter import Criteria
+from ast_parser.node_visitor import NodeVisitor
 
 
 class _ImportFilter(Criteria):
     """Filter which visits all Import-nodes"""
+
     def __init__(self):
         self.module_imports = []
         self.import_handler = ImportHandler()
@@ -36,25 +38,41 @@ class _ImportFilter(Criteria):
                     self.module_imports.append('{0}'.format(what))
 
 
-def print_imports(path_to_python_file):
-    """Prints the path to the python file and the imports it has
+def get_imports_in_file(path_to_python_file):
+    """Return the list of imports for a python file
 
-    :param path_to_python_file: path of python file to print imports for
+    :param path_to_python_file: path of python file to return imports for
+    :type path_to_python_file: str
+
+    :return: List of import statement
+    :rtype: List of str
     """
     with open(path_to_python_file) as python_file:
         python_file_as_string = python_file.read()
+    return get_imports_in_string(python_file_as_string)
 
-    ast_tree = ast.parse(python_file_as_string)
+
+def get_imports_in_string(code_as_string):
+    """Return the list of imports for python code.
+
+    :param code_as_string: python code to return imports for
+    :type code_as_string: str
+
+    :return: List of import statement
+    :rtype: List of str
+    """
+    ast_tree = ast.parse(code_as_string)
 
     import_filter = _ImportFilter()
     import_visitor = NodeVisitor(import_filter)
     import_visitor.visit(ast_tree)
-    print('{0} - {1}'.format(
-        path_to_python_file,
-        import_filter.module_imports))
+    return import_filter.module_imports
+
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        print_imports(path_to_python_file=sys.argv[1])
+        python_file = sys.argv[1]
+        list_of_imports = get_imports_in_file(python_file)
+        print('{0} - {1}'.format(python_file, list_of_imports))
     else:
         print('{0} <path to python file>'.format(sys.argv[0]))
