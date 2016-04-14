@@ -14,8 +14,11 @@ from ast_parser.node_filter import Criteria
 
 from ast_parser.handlers import assignment_handler, class_handler, function_handler, import_handler
 
-
-_all_handlers = [assignment_handler, class_handler, function_handler, import_handler]
+_all_handlers = [assignment_handler.AssignmentHandler,
+                 class_handler.ClassHandler,
+                 function_handler.FunctionHandler,
+                 import_handler.ImportHandler
+                 ]
 
 
 class _ModuleNameFilter(Criteria):
@@ -58,6 +61,7 @@ def print_module_names(path_to_python_file):
     node_visitor = NodeVisitor(module_name_filter)
     node_visitor.visit(ast_tree)
     print('{0} - {1}'.format(path_to_python_file, module_name_filter.names))
+
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
