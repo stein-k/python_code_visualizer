@@ -10,32 +10,8 @@ from __future__ import print_function
 import ast
 import sys
 
-from ast_parser.node_filter import Criteria
+from ast_parser.filters.import_filter import ImportFilter
 from ast_parser.node_visitor import NodeVisitor
-from ast_parser.parsers.import_parser import ImportParser
-
-
-class _ImportFilter(Criteria):
-    """Filter which visits all Import-nodes"""
-
-    def __init__(self):
-        self.module_imports = []
-        self.import_parser = ImportParser()
-
-    def handle_node(self, node_parents, node):
-        """Adds the import to the list of seen imports
-
-        :param node_parents: string of node parents
-        :param node: current node
-        """
-        if isinstance(node, self.import_parser.supported_types):
-            for import_statement in self.import_parser.parse(node):
-                what = import_statement.get('what_to_import')
-                where = import_statement.get('where_to_import_from')
-                if where:
-                    self.module_imports.append('{0}.{1}'.format(where, what))
-                else:
-                    self.module_imports.append('{0}'.format(what))
 
 
 def get_imports_in_file(path_to_python_file):
@@ -63,10 +39,10 @@ def get_imports_in_string(code_as_string):
     """
     ast_tree = ast.parse(code_as_string)
 
-    import_filter = _ImportFilter()
+    import_filter = ImportFilter()
     import_visitor = NodeVisitor(import_filter)
     import_visitor.visit(ast_tree)
-    return import_filter.module_imports
+    return [import_path for import_path, _ in import_filter.module_imports]
 
 
 if __name__ == '__main__':
