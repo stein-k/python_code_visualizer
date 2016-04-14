@@ -4,12 +4,12 @@ Handles FunctionDef-nodes in an AST
 """
 import ast
 
-from .interface import HandlerInterface
+from .interface import ParserInterface
 from ..node_utils import get_node_name
 
 
-class FunctionHandler(HandlerInterface):
-    """Returns information about the parsed function
+class FunctionParser(ParserInterface):
+    """Returns a dict of the parsed function
         {
             'name': '<name>',
             'vararg': '<vararg_name>',
@@ -20,7 +20,8 @@ class FunctionHandler(HandlerInterface):
             'defaults': [{'value': <value>}]
         }
     """
-    def handle(self, node):
+
+    def parse(self, node):
         """Return information about function node.
 
         :param node: a function definition node

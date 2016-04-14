@@ -1,8 +1,8 @@
 import ast
 
-from ast_parser.handlers.if_handler import IfHandler
 from ast_parser.node_filter import Criteria
 from ast_parser.node_utils import get_node_name, get_node_value
+from ast_parser.parsers.if_parser import IfParser
 
 
 class IfMainFilter(Criteria):
@@ -12,7 +12,7 @@ class IfMainFilter(Criteria):
 
     def __init__(self):
         self.main_body = []
-        self.if_handler = IfHandler()
+        self.if_handler = IfParser()
 
     def wants_to_visit_descendants(self, node_parents, node):
         """Only visit top level nodes
@@ -35,7 +35,7 @@ class IfMainFilter(Criteria):
         :param node: current node
         """
         if isinstance(node, self.if_handler.supported_types):
-            node_dict = self.if_handler.handle(node)
+            node_dict = self.if_handler.parse(node)
 
             left, op, right = get_if_parts(node_dict)
             if is_name(left) and is_equal(op) and is_main(right):

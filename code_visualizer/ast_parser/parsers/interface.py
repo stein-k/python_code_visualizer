@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Interface for node-handlers
+Interface for node-parsers
 """
 from abc import ABCMeta, abstractmethod
 
 
-class HandlerInterface(object):
-    """Metaclass for handlers"""
+class ParserInterface(object):
+    """Metaclass for parsers"""
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def handle(self, node):
+    def parse(self, node):
         """The node-handling implementation
 
         :param node: Node which the handler handles

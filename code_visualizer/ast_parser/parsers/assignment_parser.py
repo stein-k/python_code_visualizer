@@ -4,18 +4,19 @@ Handles Assign-nodes in an AST
 """
 import ast
 
-from .interface import HandlerInterface
+from .interface import ParserInterface
 from ..node_utils import get_node_name, get_node_value
 
 
-class AssignmentHandler(HandlerInterface):
-    """Returns a dict of an Assignment
+class AssignmentParser(ParserInterface):
+    """Return a dict of an Assignment
         {
             'name': '<name>',
             'value': '<value>'
         }
     """
-    def handle(self, node):
+
+    def parse(self, node):
         """Return the name/values of target for the assignment node.
 
         :param node: a supported node

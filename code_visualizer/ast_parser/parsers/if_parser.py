@@ -4,18 +4,19 @@ Handles If-nodes in an AST
 """
 import ast
 
-from ast_parser.handlers.interface import HandlerInterface
+from ast_parser.parsers.interface import ParserInterface
 
 
-class IfHandler(HandlerInterface):
-    """Returns dict of if statement
+class IfParser(ParserInterface):
+    """Return a dict of if statement
         {
             'test': '<test>',
             'body': '<body>',
             'orelse': '<orelse>'
         }
     """
-    def handle(self, node):
+
+    def parse(self, node):
         """Return dict about supported node
 
         :param node: a supported node

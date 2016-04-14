@@ -4,10 +4,10 @@ Handles Import-nodes and ImportFrom-nodes in an AST
 """
 import ast
 
-from .interface import HandlerInterface
+from .interface import ParserInterface
 
 
-class ImportHandler(HandlerInterface):
+class ImportParser(ParserInterface):
     """Return a dict of information about an import
         {
             'where_to_import_from': '<where_to_import_from>',
@@ -17,7 +17,8 @@ class ImportHandler(HandlerInterface):
             'level': <level>
         }
         """
-    def handle(self, node):
+
+    def parse(self, node):
         """Return import dict
 
         :param node: a supported node

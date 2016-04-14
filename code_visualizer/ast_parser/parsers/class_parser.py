@@ -4,18 +4,19 @@ Handles ClassDef-nodes in an AST
 """
 import ast
 
-from .interface import HandlerInterface
+from .interface import ParserInterface
 from ..node_utils import get_node_name
 
 
-class ClassHandler(HandlerInterface):
-    """Returns dict of class signature
+class ClassParser(ParserInterface):
+    """Return a dict of class signature
         {
             'name': '<name>',
             'bases': ['<base_name>'...]
         }
         """
-    def handle(self, node):
+
+    def parse(self, node):
         """Return the name/bases of base for class node.
 
         :param node: a supported node

@@ -7,14 +7,15 @@ which it writes to files.
 Run from code_visualizer with "python[3] -m recipes.dependency_graph"
 """
 from __future__ import print_function
-import sys
-import os
+
 import ast
 import collections
+import os
+import sys
 
-from ast_parser.node_visitor import NodeVisitor
 from ast_parser.node_filter import Criteria
-from ast_parser.handlers.import_handler import ImportHandler
+from ast_parser.node_visitor import NodeVisitor
+from ast_parser.parsers.import_parser import ImportParser
 from utils import path_walker
 
 
@@ -23,7 +24,7 @@ class _ImportFilter(Criteria):
 
     def __init__(self):
         self.module_imports = []
-        self.import_handler = ImportHandler()
+        self.import_parser = ImportParser()
 
     def wants_to_visit_descendants(self, node_parents, node):
         return True
@@ -35,7 +36,7 @@ class _ImportFilter(Criteria):
         :param node; Current node
         """
         if isinstance(node, (ast.Import, ast.ImportFrom)):
-            for import_statement in self.import_handler.handle(node):
+            for import_statement in self.import_parser.parse(node):
                 what = import_statement.get('what_to_import')
                 self.module_imports.append(what)
 

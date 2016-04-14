@@ -6,19 +6,19 @@ Prints the names available in the global scope for a given module
 Run from code_visualizer with "python[3] -m recipes.get_module_names"
 """
 from __future__ import print_function
-import sys
+
 import ast
+import sys
 
-from ast_parser.node_visitor import NodeVisitor
 from ast_parser.node_filter import Criteria
+from ast_parser.node_visitor import NodeVisitor
+from ast_parser.parsers import assignment_parser, class_parser, function_parser, import_parser
 
-from ast_parser.handlers import assignment_handler, class_handler, function_handler, import_handler
-
-_all_handlers = [assignment_handler.AssignmentHandler,
-                 class_handler.ClassHandler,
-                 function_handler.FunctionHandler,
-                 import_handler.ImportHandler
-                 ]
+_all_parsers = [assignment_parser.AssignmentParser,
+                class_parser.ClassParser,
+                function_parser.FunctionParser,
+                import_parser.ImportParser
+                ]
 
 
 class _ModuleNameFilter(Criteria):
@@ -36,10 +36,10 @@ class _ModuleNameFilter(Criteria):
         :param node_parents: string of node parents
         :param node: current node
         """
-        for handler in _all_handlers:
-            handler_instance = handler()
-            if isinstance(node, handler_instance.supported_types):
-                node_list = handler_instance.handle(node)
+        for paser in _all_parsers:
+            parser_instance = paser()
+            if isinstance(node, parser_instance.supported_types):
+                node_list = parser_instance.parse(node)
                 self.names.extend(
                     [node_element.get('name') for node_element in node_list]
                 )
