@@ -16,27 +16,52 @@ from ast_parser.filters.if_name_main import IfMainFilter
 from ast_parser.node_visitor import NodeVisitor
 
 
-def print_main(path_to_python_file):
-    """Prints the path to the python file if it has a
+def get_main_in_file(path_to_python_file):
+    """Return the list of :
     if __name__ == '__main__'
-    at the root of the module.
+    from the root of the module.
 
-    :param path_to_python_file: path of python file to print imports for
+    :param path_to_python_file: path of python file to get entry-points from.
+    :type path_to_python_file: str
+
+    :return: List of line-numbers where entry-point is present in code.
+    :rtype: list of int
     """
     with open(path_to_python_file) as python_file:
         python_file_as_string = python_file.read()
 
-    ast_tree = ast.parse(python_file_as_string)
+        return get_main_in_string(python_file_as_string)
+
+
+def get_main_in_string(code_as_string):
+    """Return the list of :
+    if __name__ == '__main__'
+    from the root of the module.
+
+    :param code_as_string: string representation of python code
+    to get entry-points from.
+    :type code_as_string: str
+
+    :return: List of line-numbers where entry-point is present in code.
+    :rtype: list of int
+    """
+    ast_tree = ast.parse(code_as_string)
 
     if_main_filter = IfMainFilter()
     if_statement_visitor = NodeVisitor(if_main_filter)
     if_statement_visitor.visit(ast_tree)
     if if_main_filter.main_body:
-        print('{0} - at line {1}'.format(path_to_python_file, [m.lineno for m in if_main_filter.main_body]))
-
+        return [m.lineno for m in if_main_filter.main_body]
+    else:
+        return []
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        print_main(path_to_python_file=sys.argv[1])
+        path_to_python_file = sys.argv[1]
+        list_of_mains = get_main_in_file(path_to_python_file)
+        if list_of_mains:
+            print('{0} - at line {1}'.format(path_to_python_file, list_of_mains))
+        else:
+            print('No main entry found in {0}'.format(path_to_python_file))
     else:
         print('{0} <path to python file>'.format(sys.argv[0]))
