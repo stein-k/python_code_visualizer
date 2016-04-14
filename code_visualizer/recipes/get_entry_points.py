@@ -57,11 +57,11 @@ def get_main_in_string(code_as_string):
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        path_to_python_file = sys.argv[1]
-        list_of_mains = get_main_in_file(path_to_python_file)
+        python_file = sys.argv[1]
+        list_of_mains = get_main_in_file(python_file)
         if list_of_mains:
-            print('{0} - at line {1}'.format(path_to_python_file, list_of_mains))
+            print('{0} - at line {1}'.format(python_file, list_of_mains))
         else:
-            print('No main entry found in {0}'.format(path_to_python_file))
+            print('No main entry found in {0}'.format(python_file))
     else:
         print('{0} <path to python file>'.format(sys.argv[0]))
