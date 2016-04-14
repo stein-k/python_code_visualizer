@@ -42,13 +42,16 @@ def get_imports_in_string(code_as_string):
     import_filter = ImportFilter()
     import_visitor = NodeVisitor(import_filter)
     import_visitor.visit(ast_tree)
-    return [import_path for import_path, _ in import_filter.module_imports]
+    return import_filter.module_imports
 
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         python_file = sys.argv[1]
         list_of_imports = get_imports_in_file(python_file)
-        print('{0} - {1}'.format(python_file, list_of_imports))
+        filtered_list_of_imports = [
+            import_path for import_path, _ in list_of_imports
+            ]
+        print('{0} - {1}'.format(python_file, filtered_list_of_imports))
     else:
         print('{0} <path to python file>'.format(sys.argv[0]))
