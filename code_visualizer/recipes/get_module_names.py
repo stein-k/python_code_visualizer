@@ -81,8 +81,8 @@ def get_module_names_in_string(code_as_string):
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        python_file = sys.argv[1]
+        input_file = sys.argv[1]
         list_of_names = print_module_names(path_to_python_file=sys.argv[1])
-        print('{0} - {1}'.format(python_file, list_of_names))
+        print('{0} - {1}'.format(input_file, list_of_names))
     else:
         print('{0} <path to python file>'.format(sys.argv[0]))
