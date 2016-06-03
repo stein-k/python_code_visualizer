@@ -15,9 +15,14 @@ from recipes.get_module_names import get_module_names_in_string
 from utils.path_walker import get_directory_structure
 
 
-def main(input_base_path, output_path=None):
+def main(input_base_path):
     """
     Iterates over found python files and prints file-path and file-name
+    :param input_base_path: Path to analyze
+    :type input_base_path: str
+
+    :return: Dictionary of analyzed files and the result
+    :rtype; dict
     """
     big_dict = {}
     for file_path, file_name in get_directory_structure(input_base_path):
@@ -56,5 +61,5 @@ if __name__ == '__main__':
 
     input_dir = args.input_dir
     output_dir = args.output_dir
-    output = main(input_dir, output_dir)
+    output = main(input_dir)
     pprint(output)
