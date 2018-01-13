@@ -6,7 +6,7 @@ and notifies filters of individual code-elements seen.
 import ast
 from collections import namedtuple
 
-from code_visualizer.ast_parser.node_utils import get_children_parent
+from python_code_visualizer.ast_parser.node_utils import get_children_parent
 
 StackItem = namedtuple('StackItem', ['ascendants', 'node'])
 

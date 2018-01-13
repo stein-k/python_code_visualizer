@@ -3,15 +3,15 @@
 """
 Prints a list of imports for a given python-file.
 
-Run from code_visualizer with "python[3] -m code_visualizer.recipes.get_imports"
+Run from python_code_visualizer with "python[3] -m python_code_visualizer.recipes.get_imports"
 """
 from __future__ import print_function
 
 import ast
 import sys
 
-from code_visualizer.ast_parser.filters.import_filter import ImportFilter
-from code_visualizer.ast_parser.node_visitor import NodeVisitor
+from python_code_visualizer.ast_parser.filters.import_filter import ImportFilter
+from python_code_visualizer.ast_parser.node_visitor import NodeVisitor
 
 
 def get_imports_in_file(path_to_python_file):

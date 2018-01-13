@@ -4,8 +4,8 @@ Handles Assign-nodes in an AST
 """
 import ast
 
-from code_visualizer.ast_parser.node_utils import get_node_name, get_node_value
-from code_visualizer.ast_parser.parsers.interface import ParserInterface
+from python_code_visualizer.ast_parser.node_utils import get_node_name, get_node_value
+from python_code_visualizer.ast_parser.parsers.interface import ParserInterface
 
 
 class AssignmentParser(ParserInterface):

@@ -1,5 +1,5 @@
-from code_visualizer.ast_parser.node_filter import Criteria
-from code_visualizer.ast_parser.parsers.import_parser import ImportParser
+from python_code_visualizer.ast_parser.node_filter import Criteria
+from python_code_visualizer.ast_parser.parsers.import_parser import ImportParser
 
 
 class ImportFilter(Criteria):

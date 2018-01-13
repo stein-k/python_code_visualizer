@@ -1,4 +1,4 @@
-from code_visualizer.ast_parser.filters.if_name_main import IfMainFilter
+from python_code_visualizer.ast_parser.filters.if_name_main import IfMainFilter
 
 
 def test_without_main(without_main):

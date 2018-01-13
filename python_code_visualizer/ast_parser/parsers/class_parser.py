@@ -4,8 +4,8 @@ Handles ClassDef-nodes in an AST
 """
 import ast
 
-from code_visualizer.ast_parser.node_utils import get_node_name
-from code_visualizer.ast_parser.parsers.interface import ParserInterface
+from python_code_visualizer.ast_parser.node_utils import get_node_name
+from python_code_visualizer.ast_parser.parsers.interface import ParserInterface
 
 
 class ClassParser(ParserInterface):

@@ -3,16 +3,16 @@
 """
 Prints the structure of a python file as indented node-names.
 
-Run from code_visualizer with "python[3] -m code_visualizer.recipes.list_names"
+Run from python_code_visualizer with "python[3] -m python_code_visualizer.recipes.list_names"
 """
 from __future__ import print_function
 
 import ast
 import sys
 
-from code_visualizer.ast_parser.node_filter import Criteria
-from code_visualizer.ast_parser.node_utils import get_node_name
-from code_visualizer.ast_parser.node_visitor import NodeVisitor
+from python_code_visualizer.ast_parser.node_filter import Criteria
+from python_code_visualizer.ast_parser.node_utils import get_node_name
+from python_code_visualizer.ast_parser.node_visitor import NodeVisitor
 
 
 class _AllNameFilter(Criteria):

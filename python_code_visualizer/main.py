@@ -9,10 +9,10 @@ import argparse
 import os
 from pprint import pprint
 
-from code_visualizer.recipes.get_entry_points import get_main_in_string
-from code_visualizer.recipes.get_imports import get_imports_in_string
-from code_visualizer.recipes.get_module_names import get_module_names_in_string
-from code_visualizer.utils.path_walker import get_directory_structure
+from python_code_visualizer.recipes.get_entry_points import get_main_in_string
+from python_code_visualizer.recipes.get_imports import get_imports_in_string
+from python_code_visualizer.recipes.get_module_names import get_module_names_in_string
+from python_code_visualizer.utils.path_walker import get_directory_structure
 
 
 def main(input_base_path):

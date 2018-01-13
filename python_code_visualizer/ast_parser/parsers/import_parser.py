@@ -4,7 +4,7 @@ Handles Import-nodes and ImportFrom-nodes in an AST
 """
 import ast
 
-from code_visualizer.ast_parser.parsers.interface import ParserInterface
+from python_code_visualizer.ast_parser.parsers.interface import ParserInterface
 
 
 class ImportParser(ParserInterface):

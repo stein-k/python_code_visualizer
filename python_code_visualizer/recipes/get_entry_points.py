@@ -5,15 +5,15 @@ Prints a list of files with common python entry-point:
 if __name__ == '__main__':
 
 
-Run from code_visualizer with "python[3] -m code_visualizer.recipes.get_entry_points"
+Run from python_code_visualizer with "python[3] -m python_code_visualizer.recipes.get_entry_points"
 """
 from __future__ import print_function
 
 import ast
 import sys
 
-from code_visualizer.ast_parser.filters.if_name_main import IfMainFilter
-from code_visualizer.ast_parser.node_visitor import NodeVisitor
+from python_code_visualizer.ast_parser.filters.if_name_main import IfMainFilter
+from python_code_visualizer.ast_parser.node_visitor import NodeVisitor
 
 
 def get_main_in_file(path_to_python_file):
