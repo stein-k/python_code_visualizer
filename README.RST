@@ -1,1 +1,1 @@
-To run, execute 'python3 code_visualizer/main.py'
+To run, execute 'python analyze_code_dir.py'

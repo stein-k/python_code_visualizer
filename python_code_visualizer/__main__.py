@@ -49,17 +49,3 @@ def main(input_base_path):
         big_dict[path_to_python_file] = local_dict
     return big_dict
 
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        description='Visualize dependencies and structure of python code')
-
-    parser.add_argument('--output_dir', help='The directory where files are created.')
-    parser.add_argument('input_dir', help='The base path for the code to visualize.')
-
-    args = parser.parse_args()
-
-    input_dir = args.input_dir
-    output_dir = args.output_dir
-    output = main(input_dir)
-    pprint(output)
