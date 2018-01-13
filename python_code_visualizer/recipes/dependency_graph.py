@@ -13,32 +13,9 @@ import collections
 import os
 import sys
 
-from python_code_visualizer.ast_parser.node_filter import Criteria
+from python_code_visualizer.ast_parser.filters.import_filter import ImportFilter
 from python_code_visualizer.ast_parser.node_visitor import NodeVisitor
-from python_code_visualizer.ast_parser.parsers.import_parser import ImportParser
 from python_code_visualizer.utils import path_walker
-
-
-class _ImportFilter(Criteria):
-    """Filter which visits all Import-nodes."""
-
-    def __init__(self):
-        self.module_imports = []
-        self.import_parser = ImportParser()
-
-    def wants_to_visit_descendants(self, node_parents, node):
-        return True
-
-    def handle_node(self, node_parents, node):
-        """Adds the import to list of seen imports.
-
-        :param node_parents: String of node parents
-        :param node; Current node
-        """
-        if isinstance(node, (ast.Import, ast.ImportFrom)):
-            for import_statement in self.import_parser.parse(node):
-                what = import_statement.get('what_to_import')
-                self.module_imports.append(what)
 
 
 def dependency_graph(path):
@@ -50,7 +27,7 @@ def dependency_graph(path):
     :param path: path to create dependency graph for.
     """
 
-    import_filter = _ImportFilter()
+    import_filter = ImportFilter()
     node_visitor = NodeVisitor(import_filter)
 
     all_modules = set()
@@ -72,8 +49,8 @@ def dependency_graph(path):
         m2p_relations.add((current_module, full_path))
         all_modules.add(current_module)
         for imported_module in import_filter.module_imports:
-            all_modules.add(imported_module)
-            m2m_relations.add((current_module, imported_module))
+            all_modules.add(imported_module[0])
+            m2m_relations.add((current_module, imported_module[0]))
     return all_modules, file_paths, m2m_relations, m2p_relations
 
 
