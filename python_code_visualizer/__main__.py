@@ -5,9 +5,7 @@ Main class that prints the python files of a directory and sub-directories
 """
 from __future__ import print_function
 
-import argparse
 import os
-from pprint import pprint
 
 from python_code_visualizer.recipes.get_entry_points import get_main_in_string
 from python_code_visualizer.recipes.get_imports import get_imports_in_string
@@ -24,19 +22,19 @@ def main(input_base_path):
     :return: Dictionary of analyzed files and the result
     :rtype; dict
     """
-    big_dict = {}
+    file_paths_to_code_properties = {}
     for file_path, file_name in get_directory_structure(input_base_path):
         path_to_python_file = os.path.join(file_path, file_name)
-        local_dict = {}
+        code_properties = {}
         with open(path_to_python_file) as python_file:
             python_file_as_string = python_file.read()
 
         entry_points = get_main_in_string(python_file_as_string)
-        local_dict['entry_points'] = entry_points
+        code_properties['entry_points'] = entry_points
 
         list_of_imports = get_imports_in_string(python_file_as_string)
         imported_names = [name for _, name in list_of_imports]
-        local_dict['imports'] = list_of_imports
+        code_properties['imports'] = list_of_imports
 
         local_names = get_module_names_in_string(python_file_as_string)
         local_names = [
@@ -45,7 +43,6 @@ def main(input_base_path):
             in local_names
             if local_name
             not in imported_names]
-        local_dict['local_names'] = local_names
-        big_dict[path_to_python_file] = local_dict
-    return big_dict
-
+        code_properties['local_names'] = local_names
+        file_paths_to_code_properties[path_to_python_file] = code_properties
+    return file_paths_to_code_properties
