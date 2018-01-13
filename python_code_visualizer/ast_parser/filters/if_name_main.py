@@ -37,12 +37,16 @@ class IfMainFilter(Criteria):
         if isinstance(node, self.if_handler.supported_types):
             node_dict = self.if_handler.parse(node)
 
-            left, op, right = get_if_parts(node_dict)
-            if is_name(left) and is_equal(op) and is_main(right):
+            if _if_name_equals_main_node(node_dict):
                 self.main_body.append(node)
 
 
-def get_if_parts(node_dict):
+def _if_name_equals_main_node(node_dict):
+    left, op, right = _get_if_parts(node_dict)
+    return _is_name(left) and _is_equal(op) and _is_main(right)
+
+
+def _get_if_parts(node_dict):
     test = node_dict.get('test')
     if isinstance(test, ast.Compare):
         left_side = test.left
@@ -52,15 +56,15 @@ def get_if_parts(node_dict):
     return None, None, None
 
 
-def is_name(node):
+def _is_name(node):
     return isinstance(node, ast.Name) \
            and get_node_name(node) == '__name__'
 
 
-def is_main(node):
+def _is_main(node):
     return isinstance(node, ast.Str) \
         and get_node_value(node) == '__main__'
 
 
-def is_equal(node):
+def _is_equal(node):
     return isinstance(node, ast.Eq)
