@@ -13,7 +13,7 @@ from python_code_visualizer.recipes.get_module_names import get_module_names_in_
 from python_code_visualizer.utils.path_walker import get_directory_structure
 
 
-def main(input_base_path):
+def as_dict(input_base_path):
     """
     Iterates over found python files and prints file-path and file-name
     :param input_base_path: Path to analyze
