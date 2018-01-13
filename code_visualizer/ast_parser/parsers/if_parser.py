@@ -4,7 +4,7 @@ Handles If-nodes in an AST
 """
 import ast
 
-from ast_parser.parsers.interface import ParserInterface
+from code_visualizer.ast_parser.parsers.interface import ParserInterface
 
 
 class IfParser(ParserInterface):

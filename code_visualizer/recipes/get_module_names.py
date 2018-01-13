@@ -3,16 +3,16 @@
 """
 Prints the names available in the global scope for a given module
 
-Run from code_visualizer with "python[3] -m recipes.get_module_names"
+Run from code_visualizer with "python[3] -m code_visualizer.recipes.get_module_names"
 """
 from __future__ import print_function
 
 import ast
 import sys
 
-from ast_parser.node_filter import Criteria
-from ast_parser.node_visitor import NodeVisitor
-from ast_parser.parsers import assignment_parser, class_parser, function_parser, import_parser
+from code_visualizer.ast_parser.node_filter import Criteria
+from code_visualizer.ast_parser.node_visitor import NodeVisitor
+from code_visualizer.ast_parser.parsers import assignment_parser, class_parser, function_parser, import_parser
 
 _all_parsers = [assignment_parser.AssignmentParser,
                 class_parser.ClassParser,

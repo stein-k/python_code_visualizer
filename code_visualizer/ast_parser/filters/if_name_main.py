@@ -1,8 +1,8 @@
 import ast
 
-from ast_parser.node_filter import Criteria
-from ast_parser.node_utils import get_node_name, get_node_value
-from ast_parser.parsers.if_parser import IfParser
+from code_visualizer.ast_parser.node_filter import Criteria
+from code_visualizer.ast_parser.node_utils import get_node_name, get_node_value
+from code_visualizer.ast_parser.parsers.if_parser import IfParser
 
 
 class IfMainFilter(Criteria):

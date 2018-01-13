@@ -4,7 +4,7 @@
 Creates a dependency-graph from a directory of python files
 which it writes to files.
 
-Run from code_visualizer with "python[3] -m recipes.dependency_graph"
+Run from code_visualizer with "python[3] -m code_visualizer.recipes.dependency_graph"
 """
 from __future__ import print_function
 
@@ -13,10 +13,10 @@ import collections
 import os
 import sys
 
-from ast_parser.node_filter import Criteria
-from ast_parser.node_visitor import NodeVisitor
-from ast_parser.parsers.import_parser import ImportParser
-from utils import path_walker
+from code_visualizer.ast_parser.node_filter import Criteria
+from code_visualizer.ast_parser.node_visitor import NodeVisitor
+from code_visualizer.ast_parser.parsers.import_parser import ImportParser
+from code_visualizer.utils import path_walker
 
 
 class _ImportFilter(Criteria):
