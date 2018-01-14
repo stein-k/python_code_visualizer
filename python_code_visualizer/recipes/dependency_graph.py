@@ -18,24 +18,62 @@ from python_code_visualizer.ast_parser.node_visitor import NodeVisitor
 from python_code_visualizer.utils import path_walker
 
 
-def dependency_graph(path):
+def _get_module_path_relative_to_project(project_path, module_file_path):
+    relative_file_path = module_file_path[len(project_path):]
+    without_leading_sep = relative_file_path.lstrip(os.sep)
+    without_extension = os.path.splitext(without_leading_sep)[0]
+    relative_module_path = without_extension.replace(os.path.sep, '.')
+    return relative_module_path
+
+
+def _normalize_imported_module_to_project(importer, imported_module):
+    """
+    >>> _normalize_imported_module_to_project('library.module_a', '.module_b')
+    'library.module_b'
+    >>> _normalize_imported_module_to_project('library.module_a', 'itertools')
+    'itertools'
+    >>> _normalize_imported_module_to_project('library.path_1.module_a', '..module_b')
+    'library.module_b'
+    >>> _normalize_imported_module_to_project('library.path_1.path_2.module_a', '...module_b')
+    'library.module_b'
+
+    :param importer: the module in which the import statement is found
+    :type importer: str
+
+    :param imported_module: the import statement joined by dots
+    :type imported_module: str
+
+    :return: the imported module normalized by the importing module's path
+    :rtype: str
+    """
+    if not imported_module.startswith('.'):
+        return imported_module
+    importer_parts = importer.split('.')
+    while imported_module.startswith('.'):
+        importer_parts = importer_parts[:-1]
+        imported_module = imported_module[1:]
+    importer_parts.append(imported_module)
+    return '.'.join(importer_parts)
+
+
+def dependency_graph(project_path):
     """
     Iterates over files in path and adds the relation
     between module and imports to a list, as well
     as the relation between module and file-path.
 
-    :param path: path to create dependency graph for.
+    :param project_path: path to create dependency graph for.
     """
 
     import_filter = ImportFilter()
     node_visitor = NodeVisitor(import_filter)
 
-    all_modules = set()
+    project_modules = set()
     file_paths = set()
     m2m_relations = set()
     m2p_relations = set()
 
-    for file_path, file_name in path_walker.get_directory_structure(path):
+    for file_path, file_name in path_walker.get_directory_structure(project_path):
         full_path = os.path.join(file_path, file_name)
         with open(full_path) as python_file:
             python_file_as_string = python_file.read()
@@ -44,14 +82,16 @@ def dependency_graph(path):
         import_filter.module_imports = []
         node_visitor.visit(ast_tree)
 
-        current_module = os.path.splitext(file_name)[0]
+        current_module = _get_module_path_relative_to_project(project_path, full_path)
         file_paths.add(full_path)
         m2p_relations.add((current_module, full_path))
-        all_modules.add(current_module)
+        project_modules.add(current_module)
         for imported_module in import_filter.module_imports:
-            all_modules.add(imported_module[0])
-            m2m_relations.add((current_module, imported_module[0]))
-    return all_modules, file_paths, m2m_relations, m2p_relations
+            normalized_imported_module = _normalize_imported_module_to_project(
+                current_module,
+                imported_module.get_relative_path())
+            m2m_relations.add((current_module, normalized_imported_module))
+    return project_modules, file_paths, m2m_relations, m2p_relations
 
 
 def write_dependency_graph(input_path, output_path=''):
@@ -64,7 +104,7 @@ def write_dependency_graph(input_path, output_path=''):
         all_modules,
         file_paths,
         m2m_relations,
-        m2p_relations) = dependency_graph(path=input_path)
+        m2p_relations) = dependency_graph(project_path=input_path)
 
     output = [
         ('modules.csv', all_modules),
