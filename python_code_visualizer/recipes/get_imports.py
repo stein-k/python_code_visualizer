@@ -51,7 +51,7 @@ if __name__ == '__main__':
         list_of_imports = get_imports_in_file(input_file)
         filtered_list_of_imports = [
             import_path for import_path, _ in list_of_imports
-            ]
+        ]
         print('{0} - {1}'.format(input_file, filtered_list_of_imports))
     else:
         print('{0} <path to python file>'.format(sys.argv[0]))
