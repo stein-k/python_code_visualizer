@@ -1,5 +1,7 @@
-from ..library.module_b import foo
+from .module_b import foo
+from module_c import ggg
 
 
 def bar():
-    foo()
+    print foo()
+    print ggg()
