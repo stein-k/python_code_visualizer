@@ -7,39 +7,44 @@ import ast
 from python_code_visualizer.ast_parser.parsers.interface import ParserInterface
 
 
+class ParsedImport(object):
+    def __init__(self, import_origin, name, asname, number_of_trailing_dots):
+        self.where_to_import_from = import_origin
+        self.what_to_import = name
+        self.alias = asname
+        self.name = asname if asname else name
+        self.number_of_trailing_dots = number_of_trailing_dots
+        if self.where_to_import_from:
+            self.import_path = '{0}.{1}'.format(self.where_to_import_from, self.what_to_import)
+        else:
+            self.import_path = '{0}'.format(self.what_to_import)
+
+    def get_relative_path(self):
+        return '.' * self.number_of_trailing_dots + self.import_path
+
+
 class ImportParser(ParserInterface):
-    """Return a dict of information about an import
-        {
-            'where_to_import_from': '<where_to_import_from>',
-            'what_to_import': '<what_to_import>',
-            'alias': '<alias>',
-            'name': '<name>',
-            'level': <level>
-        }
-        """
+    """Return a list of ParsedImport instances"""
 
     def parse(self, node):
-        """Return import dict
+        """Return ParsedImport for each imported name in node
 
         :param node: a supported node
         :type node: ast.Import, ast.ImportFrom
 
-        :return: dictionary from import node
+        :return: List of imports parsed from import node
+        :rtype List[ParsedImport]
         """
         if isinstance(node, ast.ImportFrom):
             import_origin = node.module
-            import_level = node.level
+            number_of_trailing_dots = node.level
         else:
             import_origin = None
-            import_level = 0
+            number_of_trailing_dots = 0
         return [
-            {
-                'where_to_import_from': import_origin,
-                'what_to_import': name.name,
-                'alias': name.asname,
-                'name': name.asname if name.asname else name.name,
-                'level': import_level
-            } for name in node.names]
+            ParsedImport(import_origin, name.name, name.asname, number_of_trailing_dots)
+            for name in node.names
+        ]
 
     @property
     def supported_types(self):

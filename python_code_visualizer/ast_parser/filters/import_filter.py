@@ -17,12 +17,4 @@ class ImportFilter(Criteria):
         """
         if isinstance(node, self.import_parser.supported_types):
             for import_statement in self.import_parser.parse(node):
-                what = import_statement.get('what_to_import')
-                where = import_statement.get('where_to_import_from')
-                name_in_module = import_statement.get('name')
-
-                if where:
-                    import_path = '{0}.{1}'.format(where, what)
-                else:
-                    import_path = '{0}'.format(what)
-                self.module_imports.append((import_path, name_in_module))
+                self.module_imports.append(import_statement)
