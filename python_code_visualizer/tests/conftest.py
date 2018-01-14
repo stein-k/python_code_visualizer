@@ -6,14 +6,20 @@ import pytest
 
 TEST_PATH = os.path.dirname(os.path.abspath(__file__))
 TEST_CODE_PATH = os.path.join(TEST_PATH, 'data')
+PROJECT_PATH = os.path.dirname(TEST_PATH)
 
 
 @pytest.fixture
-def test_code():
-    test_projects = {}
+def project_path():
+    return PROJECT_PATH
+
+
+@pytest.fixture
+def test_projects():
+    _test_projects = {}
     for project in os.listdir(TEST_CODE_PATH):
-        test_projects[project] = os.path.join(TEST_CODE_PATH, project)
-    return test_projects
+        _test_projects[project] = os.path.join(TEST_CODE_PATH, project)
+    return _test_projects
 
 
 @pytest.fixture
